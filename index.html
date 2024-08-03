@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끄코 단어 조합기</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>test ui</h2>
+        </div>
+        
+        <div class="main">
+            <div class="left">
+                <form>
+                    <div class="form-group">
+                        <label for="piece" class="piece">(일반)<br>글자조각: </label>
+                        <textarea id="jokak" name="jokak" class="text-area"></textarea>
+                        <button type="button" onclick="submitForm()" class="submit-button">확인</button>
+                    </div>    
+                </form>
+                <br>
+                <form>
+                    <div class="form-group">
+                        <label for="htmls" class="htmls-info">html 입력:</label>
+                        <textarea id="htmls-input" name="htmls-input" class="text-area1"></textarea>
+                        <button type="button" onclick="processHtml()" class="submit-button">확인</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="right">
+                <div id="output"></div>
+                <br>
+                <div id="output1"></div>
+            </div>
+        </div>
+        <script src="./script.js"></script>
+    </div>
+</body>
+</html>

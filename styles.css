@@ -1,0 +1,109 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column; /* 수직 방향으로 배치 */  
+    height: 100vh; /* 화면 전체 높이 */
+}
+
+.header {
+    background-color: #333;
+    color: #fff;
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: center; /* 수평 중앙 정렬 */
+    height: 70px; /* 높이 설정 */
+    text-align: center;
+    flex-shrink: 0; /* 헤더의 크기를 고정 */
+}  
+  
+
+.main {
+    display: flex;
+    flex: 1;
+}
+
+.left, .right {
+    flex: 1;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: white;
+    overflow-y: scroll; /* 개별 스크롤 설정 */
+}
+
+.left {
+    border-right: 2px solid #000;
+}
+
+.form-group {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    margin-bottom: 10px;
+}
+
+.html-input {
+    width: 400px;
+    height: 100px;
+}
+
+.piece {
+    margin-right: 10px; /* 레이블과 텍스트 영역 간의 간격 설정 */
+    text-align: right; /* 레이블 텍스트 오른쪽 정렬 */
+}
+
+.text-area {
+    width: 400px; /* 너비 설정 */
+    height: 200px; /* 높이 설정 */
+    padding: 10px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    overflow: scroll; /* 스크롤바 추가 */
+    resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
+}
+
+.htmls-info {
+    margin-right: 2px; /* 레이블과 텍스트 영역 간의 간격 설정 */
+    text-align: right; /* 레이블 텍스트 오른쪽 정렬 */
+}
+
+.text-area1 {
+    width: 400px; /* 너비 설정 */
+    height: 50px; /* 높이 설정 */
+    padding: 10px;
+    box-sizing: border-box;
+    margin-right: 10px;
+    overflow: scroll; /* 스크롤바 추가 */
+    resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
+}
+
+.submit-button {
+    width: 70px;
+    height: 50px;
+}
+
+/* WebKit 및 Blink (Chrome, Safari 등) */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Gecko (Firefox) */
+* {
+    scrollbar-width: thin; /* 'auto' 또는 'thin' */
+    scrollbar-color: #888 #f1f1f1; /* 핸들과 트랙 색상 */
+}
+

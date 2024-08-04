@@ -1,4 +1,4 @@
-function maxWordsFromString(string, dictionary) {
+function maxWordsFromString(string, dictionary,mode) {
     // 문자열과 사전에서 문자의 빈도를 계산하는 함수
     function countCharacters(str) {
         const count = {};
@@ -83,18 +83,47 @@ function maxWordsFromString(string, dictionary) {
     const remainingP = document.createElement('p');
     remainingP.textContent = `남은 문자열: '${remainingString}'`;
     outputDiv.appendChild(remainingP);
-
-    return wordCountsResult;
+    
+    const ReturnList=[]
+    for (const word in wordCountsResult){
+        for (let i=0;i<wordCountsResult[word];i++){
+            ReturnList.push(word);
+        }
+        
+    }
+    return ReturnList;
 }
 
 // 예제 사용법
-const string = "가가가가가가가나나나나나나ㄷ다다다다다다라라라라";
-const dictionary = ["가가가가가나", "가나다가나다"];
-maxWordsFromString(string, dictionary);
+//const string = "가가가가가가가나나나나나나ㄷ다다다다다다라라라라";
+//const k=maxWordsFromString(string, dictionary);
+//console.log(k)
+
+
+function submit1(){
+    var strings= document.getElementById('jokak-normal').value;
+    const dictionary = ["가가가가가나", "가나다가나다"];
+    maxWordsFromString(strings, dictionary,'normal');
+    
+}
+
+function submit2(){
+    var strings= document.getElementById('jokak-gogp').value;
+    const dictionary = ["가가가가가나", "가나다가나다"];
+    maxWordsFromString(strings, dictionary,'gogp');
+    
+}
+
+function submit3(){
+    var strings= document.getElementById('jokak-rare').value;
+    const dictionary = ["가가가가가나", "가나다가나다"];
+    maxWordsFromString(strings, dictionary,'rare');
+    
+}
 
 function processHtml() {
     var htmlString = document.getElementById('htmls-input').value;
-    const outputDiv = document.getElementById('jokak');
+    const outputDiv = document.getElementById('jokak-normal');
     // DOMParser를 사용하여 HTML 문자열을 파싱
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');

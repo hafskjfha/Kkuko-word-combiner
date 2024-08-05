@@ -1,4 +1,67 @@
-function maxWordsFromString(string, dictionary,mode) {
+let dictionary = ["가가가가가나", "가나다가나다"];
+function outdata(WordList6,WordList5,remainingStringa){
+    // Create two text box wrappers
+    const createTextBoxWrapper = (titleText, items) => {
+        // Create a wrapper for the title and text box
+        const textBoxWrapper = document.createElement('div');
+        textBoxWrapper.className = 'textBoxWrapper';
+
+        // Create a title element
+        const title = document.createElement('h6');
+        title.textContent = titleText;
+
+        // Create a new div element for the text box
+        const newTextBox = document.createElement('div');
+        newTextBox.className = 'textBox';
+
+        // Add items with their indices to the text box
+        items.forEach((item, index) => {
+            // Create a container for each item
+            const itemContainer = document.createElement('div');
+            itemContainer.className = 'itemContainer';
+
+            // Create the index box
+            const indexBox = document.createElement('div');
+            indexBox.className = 'indexBox';
+            indexBox.textContent = `${index + 1}.`;
+
+            // Create the text box content
+            const textBoxContent = document.createElement('div');
+            textBoxContent.className = 'textBoxContent';
+            textBoxContent.textContent = item;
+
+            // Append the index box and text box content to the item container
+            itemContainer.appendChild(indexBox);
+            itemContainer.appendChild(textBoxContent);
+
+            // Append the item container to the main text box
+            newTextBox.appendChild(itemContainer);
+        });
+
+        // Append the title and text box to the wrapper
+        textBoxWrapper.appendChild(title);
+        textBoxWrapper.appendChild(newTextBox);
+
+        return textBoxWrapper;
+    };
+
+    // Create and append the first text box wrapper
+    const textBoxWrapper1 = createTextBoxWrapper(`만들어진 6글자 단어 ${WordList6.length}`, WordList6);
+    document.getElementById('out-container').appendChild(textBoxWrapper1);
+
+    // Create and append the second text box wrapper
+    const textBoxWrapper2 = createTextBoxWrapper(`만들어진 5글자 단어 ${WordList5.length}`, WordList5);
+    document.getElementById('out-container').appendChild(textBoxWrapper2);
+
+    const remainingD=document.createElement('div');
+    remainingD.textContent = `남은 글자: ${remainingStringa}`;
+    document.getElementById('out-container').appendChild(remainingD);
+}
+
+
+
+
+function maxWordsFromString(string, dictionary) {
     // 문자열과 사전에서 문자의 빈도를 계산하는 함수
     function countCharacters(str) {
         const count = {};
@@ -56,6 +119,11 @@ function maxWordsFromString(string, dictionary,mode) {
         }
     }
 
+    let remainingString = '';
+    for (const char in stringCount) {
+        remainingString += char.repeat(stringCount[char]);
+    }
+
     const wordCountsResult = {};
     for (const word of result) {
         if (wordCountsResult[word]) {
@@ -66,32 +134,8 @@ function maxWordsFromString(string, dictionary,mode) {
     }
 
     // 결과를 HTML에 출력
-    const outputDiv = document.getElementById('output');
-    outputDiv.innerHTML = '';
-
-    for (const word in wordCountsResult) {
-        const p = document.createElement('p');
-        p.textContent = `단어 '${word}'를 ${wordCountsResult[word]}번 만들 수 있습니다.`;
-        outputDiv.appendChild(p);
-    }
-
-    // 남은 문자열 출력
-    let remainingString = '';
-    for (const char in stringCount) {
-        remainingString += char.repeat(stringCount[char]);
-    }
-    const remainingP = document.createElement('p');
-    remainingP.textContent = `남은 문자열: '${remainingString}'`;
-    outputDiv.appendChild(remainingP);
-    
-    const ReturnList=[]
-    for (const word in wordCountsResult){
-        for (let i=0;i<wordCountsResult[word];i++){
-            ReturnList.push(word);
-        }
-        
-    }
-    return ReturnList;
+    //outdata(ReturnList)
+    return [ReturnList,remainingString];
 }
 
 // 예제 사용법
@@ -102,22 +146,22 @@ function maxWordsFromString(string, dictionary,mode) {
 
 function submit1(){
     var strings= document.getElementById('jokak-normal').value;
-    const dictionary = ["가가가가가나", "가나다가나다"];
-    maxWordsFromString(strings, dictionary,'normal');
+    //const dictionary = ["가가가가가나", "가나다가나다"];
+    const [a,b]= maxWordsFromString(strings, dictionary);//'normal'
     
 }
 
 function submit2(){
     var strings= document.getElementById('jokak-gogp').value;
-    const dictionary = ["가가가가가나", "가나다가나다"];
-    maxWordsFromString(strings, dictionary,'gogp');
+    //const dictionary = ["가가가가가나", "가나다가나다"];
+    maxWordsFromString(strings, dictionary);//'gogp'
     
 }
 
 function submit3(){
     var strings= document.getElementById('jokak-rare').value;
-    const dictionary = ["가가가가가나", "가나다가나다"];
-    maxWordsFromString(strings, dictionary,'rare');
+    //const dictionary = ["가가가가가나", "가나다가나다"];
+    maxWordsFromString(strings, dictionary);//'rare'
     
 }
 

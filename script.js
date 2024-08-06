@@ -1,4 +1,28 @@
-let dictionary6 = ["가가가가가나", "가나다가나다", "가가가가가나", "가나다가나다"]; // 샘플 단어 리스트
+let dictionary6=[];
+async function fetchTextFile(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        dictionary6 = await response.text();
+        const wordList = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+        return wordList;
+    } catch (error) {
+        console.error('Fetch operation failed:', error);
+        return [];
+    }
+}
+
+// 사용 예시
+const url = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_words_listA.txt';
+fetchTextFile(url).then(() => {
+    console.log('a'); // 가져온 단어 리스트를 출력
+});
+
+
+
+//let dictionary6 = ["가가가가가나", "가나다가나다", "가가가가가나", "가나다가나다"]; // 샘플 단어 리스트
 let dictionary5 = ["가가가가가", "가나다가나", "가가가가가", "가나다가나"]; // 샘플 단어 리스트
 
 function processHtml() {

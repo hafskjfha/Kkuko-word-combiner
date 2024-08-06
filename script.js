@@ -5,9 +5,9 @@ async function fetchTextFile(url) {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
         }
-        dictionary6 = await response.text();
-        const wordList = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
-        return wordList;
+        text = await response.text();
+        dictionary6 = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+        return dictionary6;
     } catch (error) {
         console.error('Fetch operation failed:', error);
         return [];
@@ -15,7 +15,7 @@ async function fetchTextFile(url) {
 }
 
 // 사용 예시
-const url = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_words_listA.txt';
+const url = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/words_len56.txt';
 fetchTextFile(url).then(() => {
     console.log('a'); // 가져온 단어 리스트를 출력
 });
@@ -23,7 +23,7 @@ fetchTextFile(url).then(() => {
 
 
 //let dictionary6 = ["가가가가가나", "가나다가나다", "가가가가가나", "가나다가나다"]; // 샘플 단어 리스트
-let dictionary5 = ["가가가가가", "가나다가나", "가가가가가", "가나다가나"]; // 샘플 단어 리스트
+//let dictionary5 = ["가가가가가", "가나다가나", "가가가가가", "가나다가나"]; // 샘플 단어 리스트
 
 function processHtml() {
     var htmlString = document.getElementById('htmls-input').value;
@@ -189,21 +189,24 @@ function outdata(WordList6, WordList5, remainingStringa) {
 
 function submit1() {
     const jokakNormal = document.getElementById("jokak-normal").value;
-    const [wordList6, remainingString] = maxWordsFromString(jokakNormal, dictionary6);
-    const wordList5 = wordList6.filter(word => word.length === 5);
+    const [wordList, remainingString] = maxWordsFromString(jokakNormal, dictionary6);
+    const wordList6 = wordList.filter(word => word.length === 6);
+    const wordList5 = wordList.filter(word => word.length === 5);
     outdata(wordList6, wordList5, remainingString);
 }
 
 function submit2() {
     const jokakGogp = document.getElementById("jokak-gogp").value;
-    const [wordList6, remainingString] = maxWordsFromString(jokakGogp, dictionary6);
-    const wordList5 = wordList6.filter(word => word.length === 5);
+    const [wordList, remainingString] = maxWordsFromString(jokakGogp, dictionary6);
+    const wordList6 = wordList.filter(word => word.length === 6);
+    const wordList5 = wordList.filter(word => word.length === 5);
     outdata(wordList6, wordList5, remainingString);
 }
 
 function submit3() {
     const jokakRare = document.getElementById("jokak-rare").value;
-    const [wordList6, remainingString] = maxWordsFromString(jokakRare, dictionary6);
-    const wordList5 = wordList6.filter(word => word.length === 5);
+    const [wordList, remainingString] = maxWordsFromString(jokakRare, dictionary6);
+    const wordList6 = wordList.filter(word => word.length === 6);
+    const wordList5 = wordList.filter(word => word.length === 5);
     outdata(wordList6, wordList5, remainingString);
 }

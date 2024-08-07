@@ -53,8 +53,6 @@ const url5 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/ma
 fetchTextFile5(url5).then(() => {
     console.log('a5'); // 가져온 단어 리스트를 출력
 });
-//let dictionary6 = ["가가가가가나", "가나다가나다", "가가가가가나", "가나다가나다"]; // 샘플 단어 리스트
-//let dictionary5 = ["가가가가가", "가나다가나", "가가가가가", "가나다가나"]; // 샘플 단어 리스트
 
 var modal = document.getElementById("Modal");
 var btn = document.getElementById("modalBtn");
@@ -279,6 +277,21 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
     const textBox1 = document.getElementById("textBox1");
     const textBox2 = document.getElementById("textBox2");
     const remainingContainer = document.getElementById("remainingContainer");
+    let list6_len = WordList6.length;
+    let lis5_len = WordList5.length;
+    if (WordList6[0]==='No possible words found.'){
+        list6_len-=1;
+    }
+    if (WordList5[0]==='No possible words found.'){
+        lis5_len-=1;
+    }
+    const k1 = (list6_len*4) + (lis5_len*3); //낱장 갯수
+    const k2 = Math.floor(list6_len*0.857 + lis5_len*0.714); //일반 휘장 상자
+    const k3 = Math.floor(list6_len*0.4 + lis5_len*0.333); //고급 휘장 상자
+    const k4 = Math.floor(list6_len*0.467 + lis5_len*0.389); //일반 글자 조각
+    const k5 = Math.floor(list6_len*0.233 + lis5_len*0.194); //고급 글자 조각
+
+
     let invalue=''
     if (mode==='normal'){
         invalue = document.getElementById("jokak-normal");
@@ -330,6 +343,10 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
     remainingText.textContent = `남은 글자들: ${remainingStringa}`;
     remainingContainer.appendChild(remainingText);
     invalue.value=remainingStringa;
+
+    const FunTextContent = document.getElementById('output1')
+    FunTextContent.innerHTML = `낱장 갯수(확정): ${k1} <br>일반 휘장 상자(기댓값): ${k2} <br>고급 휘장 상자(기댓값): ${k3} <br>일반 글자 조각(기댓값): ${k4} <br>고급 글자 조각(기댓값): ${k5}`;
+
 }
 
 

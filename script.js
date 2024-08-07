@@ -28,6 +28,21 @@ async function fetchTextFile5(url) {
         return [];
     }
 }
+let pach=''
+fetch("https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/dev/patchnote.txt")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.text();
+  })
+  .then(data => {
+    pach=data
+    console.log('good'); // 여기서 텍스트 파일의 내용을 출력하거나 처리합니다.
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
 // 사용 예시
 const url6 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_words_listA.txt';
 fetchTextFile6(url6).then(() => {
@@ -40,6 +55,25 @@ fetchTextFile5(url5).then(() => {
 });
 //let dictionary6 = ["가가가가가나", "가나다가나다", "가가가가가나", "가나다가나다"]; // 샘플 단어 리스트
 //let dictionary5 = ["가가가가가", "가나다가나", "가가가가가", "가나다가나"]; // 샘플 단어 리스트
+
+var modal = document.getElementById("Modal");
+var btn = document.getElementById("modalBtn");
+var span = document.getElementsByClassName("close")[0];
+var modalContent = document.getElementById("modalContent");
+btn.onclick = function() {
+    modalContent.innerHTML = pach;
+    modal.style.display = "block";
+}
+
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 function processHtml() {
     var htmlString = document.getElementById('htmls-input').value;
@@ -297,6 +331,8 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
     remainingContainer.appendChild(remainingText);
     invalue.value=remainingStringa;
 }
+
+
 
 function submit1() {
     const jokakNormal = document.getElementById("jokak-normal").value.replace(/\s+/g, '');

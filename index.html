@@ -12,8 +12,9 @@
         <div class="header">
             <h2>끄코 단어 조합기</h2>
             <div class="header-right">
-                <a href="https://patchnote.link" target="_blank">
-                    <img src="./img/patchnote-logo.svg" alt="패치노트">
+                <a>
+                    <!--img src="./img/patchnote-logo.svg" alt="패치노트"-->
+                    <img src="./img/patchnote-logo.svg" id="modalBtn" alt="Open Modal">
                 </a>
                 <a href="https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE/edit?usp=sharing" target="_blank">
                     <img src="./img/info1-logo.svg" alt="인포메이션">
@@ -28,6 +29,12 @@
         </div>
         
         <div class="main">
+            <div id="Modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="modalContent"></div>
+                </div>
+            </div>
             <div class="left">
                 <form>
                     <div class="form-group">

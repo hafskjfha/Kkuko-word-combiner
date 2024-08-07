@@ -10,14 +10,34 @@ body {
 }
 
 .header {
-    background-color: #333;
+    background-color: #656888;
     color: #fff;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; /* 중앙과 오른쪽 정렬을 위한 설정 */
+    height: 70px; 
+    padding: 0 20px; /* 양쪽 여백 추가 */
+    box-sizing: border-box;
+    flex-shrink: 0; 
+} 
+
+.header h2 {
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
     align-items: center; /* 수직 중앙 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    height: 70px; /* 높이 설정 */
-    text-align: center;
-    flex-shrink: 0; /* 헤더의 크기를 고정 */
-}  
+}
+
+.header-right a {
+    margin-left: 20px; /* 로고 간격 설정 */
+}
+
+.header-right img {
+    width: 40px; /* 로고 크기 설정 */
+    height: 40px; /* 로고 크기 설정 */
+}
   
 
 .main {
@@ -111,7 +131,7 @@ body {
 
 .out-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* 가로 방향으로 배치 */
     justify-content: space-around;
     margin-top: 10px;
 }
@@ -123,13 +143,18 @@ body {
 .textBox {
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 200px;
+    width: 250px;
+    height: 270px;
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 10px; /* Title과의 간격 조절 */
     overflow: auto;
     word-wrap: break-word;
+}
+
+#remainingContainer {
+    margin-top: 20px; /* 위의 박스들과의 간격 */
+    width: 100%; /* 전체 너비 사용 */
 }
 
 .itemContainer {

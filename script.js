@@ -307,15 +307,17 @@ function submit1() {
 }
 
 function submit2() {
-    const jokakGogp = document.getElementById("jokak-gogp").value;
-    const [wordList6, remainingStringa] = maxWordsFromString(jokakGogp, dictionary6);
-    const [wordList5, remainingStringb] = maxWordsFromString(remainingStringa,dictionary5);
-    outdata(wordList6, wordList5, remainingStringb);
+    const jokakGogp = document.getElementById("jokak-gogp").value.replace(/\s+/g, '');
+    const manager = new CombinationManager(jokakGogp, dictionary6);
+    manager.findPossibleWords();
+    const [wordList6, wordList5,remainingStringa] = makedata(manager);
+    outdata(wordList6, wordList5, remainingStringa,'gogp');
 }
 
 function submit3() {
-    const jokakRare = document.getElementById("jokak-rare").value;
-    const [wordList6, remainingStringa] = maxWordsFromString(jokakRare, dictionary6);
-    const [wordList5, remainingStringb] = maxWordsFromString(remainingStringa,dictionary5);
-    outdata(wordList6, wordList5, remainingStringb);
+    const jokakRare = document.getElementById("jokak-rare").value.replace(/\s+/g, '');
+    const manager = new CombinationManager(jokakRare, dictionary6);
+    manager.findPossibleWords();
+    const [wordList6, wordList5,remainingStringa] = makedata(manager);
+    outdata(wordList6, wordList5, remainingStringa,'rare');
 }

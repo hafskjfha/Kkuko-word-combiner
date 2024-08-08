@@ -350,27 +350,57 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
 }
 
 
+function processing(mode, str) {
+    const manager = new CombinationManager(str, dictionary6);
+    manager.findPossibleWords();
+    const [wordList6, wordList5, remainingStringa] = makedata(manager);
+    outdata(wordList6, wordList5, remainingStringa, mode);
+}
+
+var spinnerOverlay = document.getElementById('spinnerOverlay');
+spinnerOverlay.style.display='none';
 
 function submit1() {
     const jokakNormal = document.getElementById("jokak-normal").value.replace(/\s+/g, '');
-    const manager = new CombinationManager(jokakNormal, dictionary6);
-    manager.findPossibleWords();
-    const [wordList6, wordList5,remainingStringa] = makedata(manager);
-    outdata(wordList6, wordList5, remainingStringa,'normal');
+    var spinnerOverlay = document.getElementById('spinnerOverlay');
+    spinnerOverlay.style.display = 'flex';
+    setTimeout(() => {
+        try {
+            processing('normal',jokakNormal);
+          } catch (error) {
+            console.error('An error occurred:', error);
+          } finally {
+            spinnerOverlay.style.display = 'none';
+        }
+    }, 1);
 }
 
 function submit2() {
     const jokakGogp = document.getElementById("jokak-gogp").value.replace(/\s+/g, '');
-    const manager = new CombinationManager(jokakGogp, dictionary6);
-    manager.findPossibleWords();
-    const [wordList6, wordList5,remainingStringa] = makedata(manager);
-    outdata(wordList6, wordList5, remainingStringa,'gogp');
+    var spinnerOverlay = document.getElementById('spinnerOverlay');
+    spinnerOverlay.style.display = 'flex';
+    setTimeout(() => {
+        try {
+            processing('gogp',jokakGogp);
+          } catch (error) {
+            console.error('An error occurred:', error);
+          } finally {
+            spinnerOverlay.style.display = 'none';
+        }
+    }, 1);
 }
 
 function submit3() {
     const jokakRare = document.getElementById("jokak-rare").value.replace(/\s+/g, '');
-    const manager = new CombinationManager(jokakRare, dictionary6);
-    manager.findPossibleWords();
-    const [wordList6, wordList5,remainingStringa] = makedata(manager);
-    outdata(wordList6, wordList5, remainingStringa,'rare');
+    var spinnerOverlay = document.getElementById('spinnerOverlay');
+    spinnerOverlay.style.display = 'flex';
+    setTimeout(() => {
+        try {
+            processing('rare',jokakRare);
+          } catch (error) {
+            console.error('An error occurred:', error);
+          } finally {
+            spinnerOverlay.style.display = 'none';
+        }
+    }, 1);
 }

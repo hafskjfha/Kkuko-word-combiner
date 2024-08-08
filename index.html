@@ -37,12 +37,17 @@
                     <div id="modalContent"></div>
                 </div>
             </div>
+            <div id="spinnerOverlay" class="spinner-overlay">
+                <div class="spinner"></div>
+                <br>
+                <h2>please wait...</h2>
+            </div>
             <div class="left">
                 <form>
                     <div class="form-group">
                         <label for="jokak-normal" class="piece">(일반)<br>글자조각: </label>
                         <textarea id="jokak-normal" name="jokak-normal" class="text-area"></textarea>
-                        <button type="button" onclick="submit1()" class="submit-button">확인</button>
+                        <button type="button" onclick="submit1()" class="submit-button" id="sub1">확인</button>
                     </div>    
                 </form>
                 <br>
@@ -50,7 +55,7 @@
                     <div class="form-group">
                         <label for="jokak-gogp" class="piece">(고급)<br>글자조각: </label>
                         <textarea id="jokak-gogp" name="jokak-gogp" class="text-area2"></textarea>
-                        <button type="button" onclick="submit2()" class="submit-button">확인</button>
+                        <button type="button" onclick="submit2()" class="submit-button" id="sub2">확인</button>
                     </div>    
                 </form>
                 <br>
@@ -58,7 +63,7 @@
                     <div class="form-group">
                         <label for="jokak-rare" class="piece">(희귀)<br>글자조각: </label>
                         <textarea id="jokak-rare" name="jokak-rare" class="text-area3"></textarea>
-                        <button type="button" onclick="submit3()" class="submit-button2">확인</button>
+                        <button type="button" onclick="submit3()" class="submit-button2" id="sub3">확인</button>
                     </div>    
                 </form>
                 <br>
@@ -66,7 +71,7 @@
                     <div class="form-group">
                         <label for="htmls-input" class="htmls-info">html 입력:</label>
                         <textarea id="htmls-input" name="htmls-input" class="text-area1"></textarea>
-                        <button type="button" onclick="processHtml()" class="submit-button">확인</button>
+                        <button type="button" onclick="processHtml()" class="submit-button" id="sub4">확인</button>
                         <a href="https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE/edit#heading=h.jdfrwhkk43rr" target="_blank">
                             <img src="./img/help1-log.svg" alt="도움말" class="help-icon">
                         </a>

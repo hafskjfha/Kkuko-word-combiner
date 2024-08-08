@@ -139,7 +139,6 @@ body {
     resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
 }
 
-
 .htmls-info {
     margin-right: 2px; /* 레이블과 텍스트 영역 간의 간격 설정 */
     text-align: right; /* 레이블 텍스트 오른쪽 정렬 */
@@ -163,6 +162,12 @@ body {
 .submit-button2 {
     width: 70px;
     height: 40px;
+}
+
+.help-icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px; /* 버튼과의 간격 설정 */
 }
 
 .out-container {

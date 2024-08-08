@@ -29,7 +29,7 @@ async function fetchTextFile5(url) {
     }
 }
 let pach=''
-fetch("https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/dev/patchnote.txt")
+fetch("https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/patchnote.txt")
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok ' + response.statusText);

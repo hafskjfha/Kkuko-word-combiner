@@ -17,3 +17,7 @@
 2024.08 beta 1 릴리즈
 
 
+# 관련자료
+- https://cafe.naver.com/kkutukorea/10883 (단어 조합 코드 사용함.)<br>
+- https://cafe.naver.com/kkutukorea/126706 (6글자 단어 관련 자료.)<br>
+

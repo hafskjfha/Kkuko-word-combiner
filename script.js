@@ -1,5 +1,6 @@
 let dictionary6=[];
-async function fetchTextFile(url) {
+let dictionary5=[];
+async function fetchTextFile6(url) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -13,17 +14,64 @@ async function fetchTextFile(url) {
         return [];
     }
 }
-
+async function fetchTextFile5(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.statusText}`);
+        }
+        text = await response.text();
+        dictionary5 = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+        return dictionary5;
+    } catch (error) {
+        console.error('Fetch operation failed:', error);
+        return [];
+    }
+}
+let pach=''
+fetch("https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/dev/patchnote.txt")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    return response.text();
+  })
+  .then(data => {
+    pach=data
+    console.log('good'); // 여기서 텍스트 파일의 내용을 출력하거나 처리합니다.
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+  });
 // 사용 예시
-const url = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/words_len56.txt';
-fetchTextFile(url).then(() => {
-    console.log('a'); // 가져온 단어 리스트를 출력
+const url6 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_words_listA.txt';
+fetchTextFile6(url6).then(() => {
+    console.log('a6'); // 가져온 단어 리스트를 출력
 });
 
+const url5 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len5_words_list2.txt';
+fetchTextFile5(url5).then(() => {
+    console.log('a5'); // 가져온 단어 리스트를 출력
+});
 
+var modal = document.getElementById("Modal");
+var btn = document.getElementById("modalBtn");
+var span = document.getElementsByClassName("close")[0];
+var modalContent = document.getElementById("modalContent");
+btn.onclick = function() {
+    modalContent.innerHTML = pach;
+    modal.style.display = "block";
+}
 
-//let dictionary6 = ["가가가가가나", "가나다가나다", "가가가가가나", "가나다가나다"]; // 샘플 단어 리스트
-//let dictionary5 = ["가가가가가", "가나다가나", "가가가가가", "가나다가나"]; // 샘플 단어 리스트
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
 
 function processHtml() {
     var htmlString = document.getElementById('htmls-input').value;
@@ -77,72 +125,181 @@ function processHtml() {
     };
 }
 
-function maxWordsFromString(string, dictionary) {
-    function countCharacters(str) {
-        const count = {};
-        for (const char of str) {
-            if (count[char]) {
-                count[char]++;
-            } else {
-                count[char] = 1;
-            }
-        }
-        return count;
+class CombinationManager {
+    constructor(syllable = '', words = []) {
+        this.syllable = syllable;
+        this.words = words;
+        this.possibleWords = [];
+        this.letterCount = {};
+        this.wordCount = {};
     }
 
-    const stringCount = countCharacters(string);
-    const wordCounts = [];
-
-    for (const word of dictionary) {
-        const wordCount = countCharacters(word);
-        let minCount = Infinity;
-        for (const char in wordCount) {
-            if (!stringCount[char] || stringCount[char] < wordCount[char]) {
-                minCount = 0;
-                break;
-            }
-            minCount = Math.min(minCount, Math.floor(stringCount[char] / wordCount[char]));
-        }
-        if (minCount > 0) {
-            wordCounts.push({ word: word, count: minCount });
-        }
+    getBestAndRemove() {
+        const best = this.getBest();
+        this.deleteWord(best);
+        return best;
     }
 
-    wordCounts.sort((a, b) => b.count - a.count);
+    deleteWord(word) {
+        let deleted = this.syllable;
+        for (const char of word) {
+            deleted = deleted.replace(char, '');
+        }
+        this.syllable = deleted;
+    }
 
-    const result = [];
-    
-    for (const { word, count } of wordCounts) {
-        const wordCount = countCharacters(word);
-        for (let i = 0; i < count; i++) {
-            let canMakeWord = true;
-            for (const char in wordCount) {
-                if (stringCount[char] < wordCount[char]) {
-                    canMakeWord = false;
-                    break;
+    getBest() {
+        return Object.keys(this.wordCount).reduce((a, b) => this.wordCount[a] < this.wordCount[b] ? a : b);
+    }
+
+    counts() {
+        this.countLetter();
+        this.countWord();
+    }
+
+    findPossibleWords() {
+        if (this.possibleWords.length === 0) {
+            for (const word of this.words) {
+                if (this.exist(this.syllable, this.insert(word))) {
+                    this.possibleWords.push(word);
                 }
             }
-            if (canMakeWord) {
-                for (const char in wordCount) {
-                    stringCount[char] -= wordCount[char];
-                }
-                result.push(word);
+        } else {
+            this.fastFindPossibleWords();
+        }
+    }
+
+    hasPossibleWord() {
+        return this.possibleWords.length > 0;
+    }
+
+    countWord() {
+        this.wordCount = {};
+        for (const word of this.possibleWords) {
+            let count = 0;
+            for (const letter of word) {
+                count += this.letterCount[letter] || 0;
+            }
+            this.wordCount[word] = count;
+        }
+    }
+
+    countLetter() {
+        this.letterCount = {};
+        for (const word of this.words) {
+            for (const letter of word) {
+                this.letterCount[letter] = (this.letterCount[letter] || 0) + 1;
             }
         }
     }
 
-    let remainingString = '';
-    for (const char in stringCount) {
-        remainingString += char.repeat(stringCount[char]);
+    fastFindPossibleWords() {
+        const temp = [];
+        for (const word of this.possibleWords) {
+            if (this.exist(this.syllable, this.insert(word))) {
+                temp.push(word);
+            }
+        }
+        this.possibleWords = temp;
     }
 
-    return [result, remainingString];
+    insert(arr1) {
+        const arr = arr1.split('');
+        for (let i = 1; i < arr.length; i++) {
+            const standard = arr[i];
+            let aux = i - 1;
+            while (aux >= 0 && standard < arr[aux]) {
+                arr[aux + 1] = arr[aux];
+                aux--;
+            }
+            arr[aux + 1] = standard;
+        }
+        return arr.join('');
+    }
+
+    exist(syllable, word) {
+        let count = 0;
+        for (const s of syllable) {
+            if (s === word[count]) {
+                count++;
+            }
+            if (count === word.length) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    remainstr(){
+        return this.syllable
+    }
 }
 
-function outdata(WordList6, WordList5, remainingStringa) {
+function makedata(manager1){
+    let result6 = [];
+    if (manager1.hasPossibleWord()){
+        while (manager1.hasPossibleWord()){
+            manager1.counts();
+            const best = manager1.getBestAndRemove();
+            result6.push(best);
+            manager1.findPossibleWords();
+        }
+
+    }
+    else{
+        result6=['No possible words found.'];
+    }
+    //const stingg = ;
+    //console.log(dictionary5.slice(0,7))
+    const manager2 = new CombinationManager(manager1.remainstr(), dictionary5);
+    manager2.findPossibleWords();
+    let result5 = [];
+    if (manager2.hasPossibleWord()){
+        while (manager2.hasPossibleWord()){
+            manager2.counts();
+            const best = manager2.getBestAndRemove();
+            result5.push(best);
+            manager2.findPossibleWords();
+        }
+
+    }
+    else{
+        result5=['No possible words found.'];
+    }
+    const remainingStrings = manager2.remainstr();
+    return [result6,result5,remainingStrings];
+
+}
+
+
+
+function outdata(WordList6, WordList5, remainingStringa,mode) {
     const textBox1 = document.getElementById("textBox1");
     const textBox2 = document.getElementById("textBox2");
     const remainingContainer = document.getElementById("remainingContainer");
+    let list6_len = WordList6.length;
+    let lis5_len = WordList5.length;
+    if (WordList6[0]==='No possible words found.'){
+        list6_len-=1;
+    }
+    if (WordList5[0]==='No possible words found.'){
+        lis5_len-=1;
+    }
+    const k1 = (list6_len*4) + (lis5_len*3); //낱장 갯수
+    const k2 = Math.floor(list6_len*0.857 + lis5_len*0.714); //일반 휘장 상자
+    const k3 = Math.floor(list6_len*0.4 + lis5_len*0.333); //고급 휘장 상자
+    const k4 = Math.floor(list6_len*0.467 + lis5_len*0.389); //일반 글자 조각
+    const k5 = Math.floor(list6_len*0.233 + lis5_len*0.194); //고급 글자 조각
+
+
+    let invalue=''
+    if (mode==='normal'){
+        invalue = document.getElementById("jokak-normal");
+    }else if(mode==='gogp'){
+        invalue = document.getElementById("jokak-gogp");
+    }else {
+        invalue = document.getElementById("jokak-rare");
+    }
   
     textBox1.innerHTML = "";
     textBox2.innerHTML = "";
@@ -185,28 +342,65 @@ function outdata(WordList6, WordList5, remainingStringa) {
     const remainingText = document.createElement("p");
     remainingText.textContent = `남은 글자들: ${remainingStringa}`;
     remainingContainer.appendChild(remainingText);
+    invalue.value=remainingStringa;
+
+    const FunTextContent = document.getElementById('output1')
+    FunTextContent.innerHTML = `낱장 갯수(확정): ${k1} <br>일반 휘장 상자(기댓값): ${k2} <br>고급 휘장 상자(기댓값): ${k3} <br>일반 글자 조각(기댓값): ${k4} <br>고급 글자 조각(기댓값): ${k5}`;
+
 }
 
+
+function processing(mode, str) {
+    const manager = new CombinationManager(str, dictionary6);
+    manager.findPossibleWords();
+    const [wordList6, wordList5, remainingStringa] = makedata(manager);
+    outdata(wordList6, wordList5, remainingStringa, mode);
+}
+
+var spinnerOverlay = document.getElementById('spinnerOverlay');
+spinnerOverlay.style.display='none';
+
 function submit1() {
-    const jokakNormal = document.getElementById("jokak-normal").value;
-    const [wordList, remainingString] = maxWordsFromString(jokakNormal, dictionary6);
-    const wordList6 = wordList.filter(word => word.length === 6);
-    const wordList5 = wordList.filter(word => word.length === 5);
-    outdata(wordList6, wordList5, remainingString);
+    const jokakNormal = document.getElementById("jokak-normal").value.replace(/\s+/g, '');
+    var spinnerOverlay = document.getElementById('spinnerOverlay');
+    spinnerOverlay.style.display = 'flex';
+    setTimeout(() => {
+        try {
+            processing('normal',jokakNormal);
+          } catch (error) {
+            console.error('An error occurred:', error);
+          } finally {
+            spinnerOverlay.style.display = 'none';
+        }
+    }, 1);
 }
 
 function submit2() {
-    const jokakGogp = document.getElementById("jokak-gogp").value;
-    const [wordList, remainingString] = maxWordsFromString(jokakGogp, dictionary6);
-    const wordList6 = wordList.filter(word => word.length === 6);
-    const wordList5 = wordList.filter(word => word.length === 5);
-    outdata(wordList6, wordList5, remainingString);
+    const jokakGogp = document.getElementById("jokak-gogp").value.replace(/\s+/g, '');
+    var spinnerOverlay = document.getElementById('spinnerOverlay');
+    spinnerOverlay.style.display = 'flex';
+    setTimeout(() => {
+        try {
+            processing('gogp',jokakGogp);
+          } catch (error) {
+            console.error('An error occurred:', error);
+          } finally {
+            spinnerOverlay.style.display = 'none';
+        }
+    }, 1);
 }
 
 function submit3() {
-    const jokakRare = document.getElementById("jokak-rare").value;
-    const [wordList, remainingString] = maxWordsFromString(jokakRare, dictionary6);
-    const wordList6 = wordList.filter(word => word.length === 6);
-    const wordList5 = wordList.filter(word => word.length === 5);
-    outdata(wordList6, wordList5, remainingString);
+    const jokakRare = document.getElementById("jokak-rare").value.replace(/\s+/g, '');
+    var spinnerOverlay = document.getElementById('spinnerOverlay');
+    spinnerOverlay.style.display = 'flex';
+    setTimeout(() => {
+        try {
+            processing('rare',jokakRare);
+          } catch (error) {
+            console.error('An error occurred:', error);
+          } finally {
+            spinnerOverlay.style.display = 'none';
+        }
+    }, 1);
 }

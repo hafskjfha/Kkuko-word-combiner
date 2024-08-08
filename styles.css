@@ -10,15 +10,71 @@ body {
 }
 
 .header {
-    background-color: #333;
+    background-color: #656888;
     color: #fff;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; /* 중앙과 오른쪽 정렬을 위한 설정 */
+    height: 70px; 
+    padding: 0 20px; /* 양쪽 여백 추가 */
+    box-sizing: border-box;
+    flex-shrink: 0; 
+} 
+
+.header h2 {
+    margin: 0;
+}
+
+.header-right {
+    display: flex;
     align-items: center; /* 수직 중앙 정렬 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    height: 70px; /* 높이 설정 */
-    text-align: center;
-    flex-shrink: 0; /* 헤더의 크기를 고정 */
-}  
+}
+
+.header-right a {
+    margin-left: 20px; /* 로고 간격 설정 */
+}
+
+.header-right img {
+    width: 40px; /* 로고 크기 설정 */
+    height: 40px; /* 로고 크기 설정 */
+}
   
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+/* 모달창 내용 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+
+/* 닫기 버튼 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
 
 .main {
     display: flex;
@@ -83,7 +139,6 @@ body {
     resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
 }
 
-
 .htmls-info {
     margin-right: 2px; /* 레이블과 텍스트 영역 간의 간격 설정 */
     text-align: right; /* 레이블 텍스트 오른쪽 정렬 */
@@ -109,9 +164,15 @@ body {
     height: 40px;
 }
 
+.help-icon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px; /* 버튼과의 간격 설정 */
+}
+
 .out-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row; /* 가로 방향으로 배치 */
     justify-content: space-around;
     margin-top: 10px;
 }
@@ -123,13 +184,18 @@ body {
 .textBox {
     display: flex;
     flex-direction: column;
-    width: 300px;
-    height: 200px;
+    width: 250px;
+    height: 270px;
     border: 1px solid #ccc;
     padding: 10px;
     margin-top: 10px; /* Title과의 간격 조절 */
     overflow: auto;
     word-wrap: break-word;
+}
+
+#remainingContainer {
+    margin-top: 20px; /* 위의 박스들과의 간격 */
+    width: 100%; /* 전체 너비 사용 */
 }
 
 .itemContainer {
@@ -155,6 +221,31 @@ body {
     flex-grow: 1;
     padding-left: 10px; /* 선과 텍스트 간격 */
 }
+
+.spinner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*display: none;*/
+  }
+  .spinner {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 
 /* WebKit 및 Blink (Chrome, Safari 등) */
 ::-webkit-scrollbar {

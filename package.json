@@ -1,0 +1,17 @@
+{
+  "name": "kkuko-word-combiner",
+  "version": "1.0.0",
+  "description": "끄코 낱장용 단어 조합기",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^9.13.0",
+    "htmlhint": "^1.1.4",
+    "stylelint": "^16.10.0"
+  }
+}

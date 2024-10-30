@@ -19,3 +19,4 @@ wasm/Cargo.lock
 /.idea/
 
 temp.*
+/node_modules

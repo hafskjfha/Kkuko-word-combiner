@@ -241,16 +241,20 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
 
 
 function processing(mode, str) {
+    const startTime = performance.now();
     const manager = new CombinationManager(str, dictionary6);
     manager.find_possible_words();
     const [wordList6, wordList5, remainingStringa] = makedata(manager);
     outdata(wordList6, wordList5, remainingStringa, mode);
+    const endTime = performance.now();
+    console.log(`소요 시간: ${endTime - startTime} ms`);
 }
 
 var spinnerOverlay = document.getElementById('spinnerOverlay');
 spinnerOverlay.style.display='none';
 
 function submit1() {
+    const startTime = performance.now();
     const jokakNormal = document.getElementById("jokak-normal").value.replace(/\s+/g, '');
     var spinnerOverlay = document.getElementById('spinnerOverlay');
     spinnerOverlay.style.display = 'flex';
@@ -263,6 +267,8 @@ function submit1() {
             spinnerOverlay.style.display = 'none';
         }
     }, 1);
+    const endTime = performance.now();
+    console.log(`소요 시간: ${endTime - startTime} ms`);
 }
 
 function submit2() {

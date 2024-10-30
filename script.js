@@ -39,7 +39,7 @@ fetch("https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/patc
   })
   .then(data => {
     pach=data
-    console.log('good'); // 여기서 텍스트 파일의 내용을 출력하거나 처리합니다.
+    
   })
   .catch(error => {
     console.error('There has been a problem with your fetch operation:', error);
@@ -47,12 +47,12 @@ fetch("https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/patc
 // 사용 예시
 const url6 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_words_listA.txt';
 fetchTextFile6(url6).then(() => {
-    console.log('a6'); // 가져온 단어 리스트를 출력
+    
 });
 
 const url5 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len5_words_list2.txt';
 fetchTextFile5(url5).then(() => {
-    console.log('a5'); // 가져온 단어 리스트를 출력
+    
 });
 
 var modal = document.getElementById("Modal");
@@ -255,7 +255,7 @@ spinnerOverlay.style.display='none';
 
 function submit1() {
     const startTime = performance.now();
-    const jokakNormal = document.getElementById("jokak-normal").value.replace(/\s+/g, '');
+    const jokakNormal = document.getElementById("jokak-normal").value.replace(/\s+/g, '').split('').sort().join('');
     var spinnerOverlay = document.getElementById('spinnerOverlay');
     spinnerOverlay.style.display = 'flex';
     setTimeout(() => {
@@ -272,7 +272,7 @@ function submit1() {
 }
 
 function submit2() {
-    const jokakGogp = document.getElementById("jokak-gogp").value.replace(/\s+/g, '');
+    const jokakGogp = document.getElementById("jokak-gogp").value.replace(/\s+/g, '').split('').sort().join('');
     var spinnerOverlay = document.getElementById('spinnerOverlay');
     spinnerOverlay.style.display = 'flex';
     setTimeout(() => {
@@ -287,7 +287,7 @@ function submit2() {
 }
 
 function submit3() {
-    const jokakRare = document.getElementById("jokak-rare").value.replace(/\s+/g, '');
+    const jokakRare = document.getElementById("jokak-rare").value.replace(/\s+/g, '').split('').sort().join('');
     var spinnerOverlay = document.getElementById('spinnerOverlay');
     spinnerOverlay.style.display = 'flex';
     setTimeout(() => {

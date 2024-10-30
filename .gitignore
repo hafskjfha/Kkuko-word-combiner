@@ -17,3 +17,5 @@ wasm/Cargo.lock
 # Editor-specific files
 /.vscode/
 /.idea/
+
+temp.*

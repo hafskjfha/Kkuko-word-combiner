@@ -1,3 +1,4 @@
+import init, { CombinationManager } from './wasm/pkg/wasm.js';
 let dictionary6=[];
 let dictionary5=[];
 async function fetchTextFile6(url) {
@@ -125,141 +126,30 @@ function processHtml() {
     };
 }
 
-class CombinationManager {
-    constructor(syllable = '', words = []) {
-        this.syllable = syllable;
-        this.words = words;
-        this.possibleWords = [];
-        this.letterCount = {};
-        this.wordCount = {};
-    }
-
-    getBestAndRemove() {
-        const best = this.getBest();
-        this.deleteWord(best);
-        return best;
-    }
-
-    deleteWord(word) {
-        let deleted = this.syllable;
-        for (const char of word) {
-            deleted = deleted.replace(char, '');
-        }
-        this.syllable = deleted;
-    }
-
-    getBest() {
-        return Object.keys(this.wordCount).reduce((a, b) => this.wordCount[a] < this.wordCount[b] ? a : b);
-    }
-
-    counts() {
-        this.countLetter();
-        this.countWord();
-    }
-
-    findPossibleWords() {
-        if (this.possibleWords.length === 0) {
-            for (const word of this.words) {
-                if (this.exist(this.syllable, this.insert(word))) {
-                    this.possibleWords.push(word);
-                }
-            }
-        } else {
-            this.fastFindPossibleWords();
-        }
-    }
-
-    hasPossibleWord() {
-        return this.possibleWords.length > 0;
-    }
-
-    countWord() {
-        this.wordCount = {};
-        for (const word of this.possibleWords) {
-            let count = 0;
-            for (const letter of word) {
-                count += this.letterCount[letter] || 0;
-            }
-            this.wordCount[word] = count;
-        }
-    }
-
-    countLetter() {
-        this.letterCount = {};
-        for (const word of this.words) {
-            for (const letter of word) {
-                this.letterCount[letter] = (this.letterCount[letter] || 0) + 1;
-            }
-        }
-    }
-
-    fastFindPossibleWords() {
-        const temp = [];
-        for (const word of this.possibleWords) {
-            if (this.exist(this.syllable, this.insert(word))) {
-                temp.push(word);
-            }
-        }
-        this.possibleWords = temp;
-    }
-
-    insert(arr1) {
-        const arr = arr1.split('');
-        for (let i = 1; i < arr.length; i++) {
-            const standard = arr[i];
-            let aux = i - 1;
-            while (aux >= 0 && standard < arr[aux]) {
-                arr[aux + 1] = arr[aux];
-                aux--;
-            }
-            arr[aux + 1] = standard;
-        }
-        return arr.join('');
-    }
-
-    exist(syllable, word) {
-        let count = 0;
-        for (const s of syllable) {
-            if (s === word[count]) {
-                count++;
-            }
-            if (count === word.length) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    remainstr(){
-        return this.syllable
-    }
-}
 
 function makedata(manager1){
     let result6 = [];
-    if (manager1.hasPossibleWord()){
-        while (manager1.hasPossibleWord()){
+    if (manager1.has_possible_word()){
+        while (manager1.has_possible_word()){
             manager1.counts();
-            const best = manager1.getBestAndRemove();
+            const best = manager1.get_best_and_remove();
             result6.push(best);
-            manager1.findPossibleWords();
+            manager1.find_possible_words();
         }
 
     }
     else{
         result6=['No possible words found.'];
     }
-    //const stingg = ;
-    //console.log(dictionary5.slice(0,7))
     const manager2 = new CombinationManager(manager1.remainstr(), dictionary5);
-    manager2.findPossibleWords();
+    manager2.find_possible_words();
     let result5 = [];
-    if (manager2.hasPossibleWord()){
-        while (manager2.hasPossibleWord()){
+    if (manager2.has_possible_word()){
+        while (manager2.has_possible_word()){
             manager2.counts();
-            const best = manager2.getBestAndRemove();
+            const best = manager2.get_best_and_remove();
             result5.push(best);
-            manager2.findPossibleWords();
+            manager2.find_possible_words();
         }
 
     }
@@ -352,7 +242,7 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
 
 function processing(mode, str) {
     const manager = new CombinationManager(str, dictionary6);
-    manager.findPossibleWords();
+    manager.find_possible_words();
     const [wordList6, wordList5, remainingStringa] = makedata(manager);
     outdata(wordList6, wordList5, remainingStringa, mode);
 }

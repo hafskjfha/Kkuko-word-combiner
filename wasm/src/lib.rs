@@ -2,6 +2,7 @@ use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 
 #[wasm_bindgen]
+#[derive(Debug)]
 pub struct CombinationManager {
     syllable: String,
     words: Vec<String>,
@@ -12,8 +13,9 @@ pub struct CombinationManager {
 
 #[wasm_bindgen]
 impl CombinationManager {
-    pub fn new(syllable: String, words: Vec<String>) -> Self {
-        Self {
+    #[wasm_bindgen(constructor)]
+    pub fn new(syllable: String, words: Vec<String>) -> CombinationManager {
+        CombinationManager {
             syllable,
             words,
             possible_words: Vec::new(),
@@ -22,25 +24,65 @@ impl CombinationManager {
         }
     }
 
+    #[wasm_bindgen]
+    pub fn get_best_and_remove(&mut self) -> Option<String> {
+        if let Some(best) = self.get_best() {
+            self.delete_word(&best);
+            Some(best)
+        } else {
+            None
+        }
+    }
+
+    fn delete_word(&mut self, word: &str) {
+        let mut deleted: String = self.syllable.clone();
+        for ch in word.chars() {
+            deleted = deleted.replacen(ch, "", 1);
+        }
+        self.syllable = deleted;
+    }
+
+    fn get_best(&self) -> Option<String> {
+        self.word_count.iter().min_by_key(|(_, &count)| count).map(|(word, _)| word.clone())
+    }
+
+    #[wasm_bindgen]
+    pub fn counts(&mut self) {
+        self.count_letter();
+        self.count_word();
+    }
+
+    #[wasm_bindgen]
+    pub fn find_possible_words(&mut self) {
+        if self.possible_words.is_empty() {
+            for word in &self.words {
+                if self.exist(&self.syllable, &self.insert(word.clone())) {
+                    self.possible_words.push(word.clone());
+                }
+            }
+        } else {
+            self.fast_find_possible_words();
+        }
+    }
+
+    #[wasm_bindgen]
     pub fn has_possible_word(&self) -> bool {
         !self.possible_words.is_empty()
     }
 
-    pub fn count_word(&mut self) {
-        self.word_count.clear(); // 기존 데이터를 지웁니다.
-
+    fn count_word(&mut self) {
+        self.word_count.clear();
         for word in &self.possible_words {
             let mut count: usize = 0;
             for letter in word.chars() {
-                count += self.letter_count.get(&letter).copied().unwrap_or(0);
+                count += *self.letter_count.get(&letter).unwrap_or(&0);
             }
             self.word_count.insert(word.clone(), count);
         }
     }
 
-    pub fn count_letter(&mut self) {
-        self.letter_count.clear(); // 기존 데이터를 지웁니다.
-
+    fn count_letter(&mut self) {
+        self.letter_count.clear();
         for word in &self.words {
             for letter in word.chars() {
                 *self.letter_count.entry(letter).or_insert(0) += 1;
@@ -48,21 +90,26 @@ impl CombinationManager {
         }
     }
 
-    fn insert(arr1: &str) -> String {
-        let mut arr: Vec<char> = arr1.chars().collect();
-        arr.sort(); // Timsort 사용으로 O(n log n) 성능
-        arr.iter().collect()
+    fn fast_find_possible_words(&mut self) {
+        let mut temp: Vec<String> = Vec::new();
+        for word in &self.possible_words {
+            if self.exist(&self.syllable, &self.insert(word.clone())) {
+                temp.push(word.clone());
+            }
+        }
+        self.possible_words = temp;
     }
 
-    pub fn remainstr(&mut self){
-        self.syllable
+    fn insert(&self, word: String) -> String {
+        let mut chars: Vec<char> = word.chars().collect();
+        chars.sort_unstable();
+        chars.into_iter().collect()
     }
 
-    pub fn exist(&self, syllable: &str, word: &str) -> bool {
+    fn exist(&self, syllable: &str, word: &str) -> bool {
         let mut count: usize = 0;
-
         for s in syllable.chars() {
-            if s == word.chars().nth(count).unwrap_or('\0') {
+            if count < word.len() && s == word.chars().nth(count).unwrap() {
                 count += 1;
             }
             if count == word.len() {
@@ -72,68 +119,8 @@ impl CombinationManager {
         false
     }
 
-    pub fn fast_find_possible_words(&mut self) {
-        let mut temp: Vec<String> = Vec::new(); 
-
-        for word in &self.possible_words {
-            let inserted_word: str = self.insert(word);
-
-            
-            if self.exist(&self.syllable, &inserted_word) {
-                temp.push(word.clone()); 
-            }
-        }
-
-        self.possible_words = temp; 
+    #[wasm_bindgen]
+    pub fn remainstr(&self) -> String {
+        self.syllable.clone()
     }
-
-    pub fn counts(&mut self){
-        self.count_letter();
-        self.count_word();
-    }
-
-    pub fn delete_word(&mut self, word: &str) {
-        let mut deleted = self.syllable.clone(); 
-
-        for char in word.chars() {
-            deleted = deleted.replace(char, ""); 
-        }
-
-        self.syllable = deleted; 
-    }
-
-    pub fn get_best(&self) -> Option<String> {
-        let mut best_word: Option<String> = None;
-        let mut min_count: usize = usize::MAX; 
-
-        for (word, &count) in &self.word_count {
-            if count < min_count {
-                min_count = count;
-                best_word = Some(word.clone()); 
-            }
-        }
-
-        best_word
-    }
-
-    pub fn find_possible_words(&mut self) {
-        if self.possible_words.is_empty() {
-            for word in &self.words {
-                let inserted_word: str = self.insert(word); 
-
-                if self.exist(&self.syllable, &inserted_word) {
-                    self.possible_words.push(word.clone()); 
-                }
-            }
-        } else {
-            self.fast_find_possible_words();
-        }
-    }
-
-    pub fn get_best_and_remove(&mut self){
-        let mut best: Option<String> = self.get_best();
-        self.delete_word(best);
-        best
-    }
-
 }

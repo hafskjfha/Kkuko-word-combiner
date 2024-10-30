@@ -1,6 +1,9 @@
 # Kkuko-word-combiner
 끄코 낱장용 단어 조합기
 
+#
+깃허브 페이지용 브렌치
+
 # 정보
 ## 사용법
 사용법: [구글 문서](https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE)

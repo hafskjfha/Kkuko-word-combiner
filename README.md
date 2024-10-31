@@ -1,6 +1,9 @@
 # Kkuko-word-combiner
 끄코 낱장용 단어 조합기
 
+# 개발 브랜치
+테스트입력.txt의 내용을 일반글자조각 입력에 넣고 테스트를 돌려주세요
+
 # 정보
 ## 사용법
 사용법: [구글 문서](https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE)

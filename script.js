@@ -248,7 +248,7 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
 
 
 function processing(mode, str) {
-    const manager = new CombinationManager(str,dictionary6.slice(0,1000));//dictionary6.slice(0,1000)
+    const manager = new CombinationManager(str,dictionary6.slice(0,7000));//dictionary6.slice(0,1000)
     manager.find_possible_words();
     const [wordList6, wordList5, remainingStringa] = makedata(manager);
     outdata(wordList6, wordList5, remainingStringa, mode);

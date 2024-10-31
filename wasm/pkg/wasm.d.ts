@@ -4,9 +4,12 @@ export class CombinationManager {
   free(): void;
   /**
    * @param {string} syllable
-   * @param {(string)[]} words
    */
-  constructor(syllable: string, words: (string)[]);
+  constructor(syllable: string);
+  /**
+   * @param {(string)[]} new_words
+   */
+  add_words(new_words: (string)[]): void;
   /**
    * @returns {string | undefined}
    */
@@ -28,7 +31,8 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_combinationmanager_free: (a: number, b: number) => void;
-  readonly combinationmanager_new: (a: number, b: number, c: number, d: number) => number;
+  readonly combinationmanager_new: (a: number, b: number) => number;
+  readonly combinationmanager_add_words: (a: number, b: number, c: number) => void;
   readonly combinationmanager_get_best_and_remove: (a: number) => Array;
   readonly combinationmanager_counts: (a: number) => void;
   readonly combinationmanager_find_possible_words: (a: number) => void;

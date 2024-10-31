@@ -14,14 +14,19 @@ pub struct CombinationManager {
 #[wasm_bindgen]
 impl CombinationManager {
     #[wasm_bindgen(constructor)]
-    pub fn new(syllable: String, words: Vec<String>) -> CombinationManager {
+    pub fn new(syllable: String) -> CombinationManager {
         CombinationManager {
             syllable,
-            words,
+            words: Vec::new(),
             possible_words: Vec::new(),
             letter_count: HashMap::new(),
             word_count: HashMap::new(),
         }
+    }
+
+    #[wasm_bindgen]
+    pub fn add_words(&mut self, new_words: Vec<String>) {
+        self.words.extend(new_words);
     }
 
     #[wasm_bindgen]

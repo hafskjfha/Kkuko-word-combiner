@@ -120,7 +120,8 @@
             import init, { CombinationManager } from './wasm/pkg/wasm.js';
             async function run() {
                 await init();
-                const ma= new CombinationManager('내다다라램믹스이익트',['다이내믹램','다익스트라']);
+                const ma= new CombinationManager('내다다라램믹스이익트');
+                ma.add_words(['다이내믹램','다익스트라']);
                 console.log(ma.has_possible_word())
                 ma.find_possible_words();
                 console.log(ma.has_possible_word())

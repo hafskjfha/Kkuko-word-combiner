@@ -122,17 +122,22 @@ export class CombinationManager {
     }
     /**
      * @param {string} syllable
-     * @param {(string)[]} words
      */
-    constructor(syllable, words) {
+    constructor(syllable) {
         const ptr0 = passStringToWasm0(syllable, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
         const len0 = WASM_VECTOR_LEN;
-        const ptr1 = passArrayJsValueToWasm0(words, wasm.__wbindgen_malloc);
-        const len1 = WASM_VECTOR_LEN;
-        const ret = wasm.combinationmanager_new(ptr0, len0, ptr1, len1);
+        const ret = wasm.combinationmanager_new(ptr0, len0);
         this.__wbg_ptr = ret >>> 0;
         CombinationManagerFinalization.register(this, this.__wbg_ptr, this);
         return this;
+    }
+    /**
+     * @param {(string)[]} new_words
+     */
+    add_words(new_words) {
+        const ptr0 = passArrayJsValueToWasm0(new_words, wasm.__wbindgen_malloc);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.combinationmanager_add_words(this.__wbg_ptr, ptr0, len0);
     }
     /**
      * @returns {string | undefined}

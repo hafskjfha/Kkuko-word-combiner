@@ -108,11 +108,13 @@ impl CombinationManager {
 
     fn exist(&self, syllable: &str, word: &str) -> bool {
         let mut count: usize = 0;
+        let word_chars: Vec<char> = word.chars().collect(); 
+    
         for s in syllable.chars() {
-            if count < word.len() && s == word.chars().nth(count).unwrap() {
+            if count < word_chars.len() && s == word_chars[count] {
                 count += 1;
             }
-            if count == word.len() {
+            if count == word_chars.len() {
                 return true;
             }
         }

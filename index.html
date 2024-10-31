@@ -115,7 +115,24 @@
                 <div id="output1"></div>
             </div>
         </div>
-        <script src="./script.js"></script>
+        <script src="./script.js" type="module"></script>
+        <script type="module">
+            import init, { CombinationManager } from './wasm/pkg/wasm.js';
+            async function run() {
+                await init();
+                const ma= new CombinationManager('내다다라램믹스이익트',['다이내믹램','다익스트라']);
+                console.log(ma.has_possible_word())
+                ma.find_possible_words();
+                console.log(ma.has_possible_word())
+                while (ma.has_possible_word()){
+                    ma.counts();
+                    const best = ma.get_best_and_remove();
+                    console.log(best);
+                    ma.find_possible_words();
+                }
+            }
+            run();
+        </script>
     </div>
     <div></div>
 </body>

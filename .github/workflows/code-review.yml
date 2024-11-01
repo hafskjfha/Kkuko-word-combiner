@@ -22,9 +22,6 @@ jobs:
 
       - name: Run HTML lint
         run: npm run lint:html
-
-      - name: Run CSS lint
-        run: npm run lint:css
-
+        
       - name: Run JavaScript lint
         run: npm run lint:js

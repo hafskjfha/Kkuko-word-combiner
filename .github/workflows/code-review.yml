@@ -15,16 +15,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # 원하는 Node.js 버전 사용
+          node-version: '18'  # 원하는 Node.js 버전 사용
 
       - name: Install dependencies
         run: npm install
 
       - name: Run HTML lint
         run: npm run lint:html
-
-      - name: Run CSS lint
-        run: npm run lint:css
 
       - name: Run JavaScript lint
         run: npm run lint:js

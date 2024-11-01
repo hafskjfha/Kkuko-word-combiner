@@ -5,21 +5,21 @@ body {
 
 .container {
     display: flex;
-    flex-direction: column; /* 수직 방향으로 배치 */  
-    height: 100vh; /* 화면 전체 높이 */
+    flex-direction: column;
+    height: 100vh;
 }
 
 .header {
     background-color: #656888;
     color: #fff;
     display: flex;
-    align-items: center; 
-    justify-content: space-between; /* 중앙과 오른쪽 정렬을 위한 설정 */
-    height: 70px; 
-    padding: 0 20px; /* 양쪽 여백 추가 */
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 0 20px;
     box-sizing: border-box;
-    flex-shrink: 0; 
-} 
+    flex-shrink: 0;
+}
 
 .header h2 {
     margin: 0;
@@ -27,41 +27,39 @@ body {
 
 .header-right {
     display: flex;
-    align-items: center; /* 수직 중앙 정렬 */
+    align-items: center;
 }
 
 .header-right a {
-    margin-left: 20px; /* 로고 간격 설정 */
+    margin-left: 20px;
 }
 
 .header-right img {
-    width: 40px; /* 로고 크기 설정 */
-    height: 40px; /* 로고 크기 설정 */
+    width: 40px;
+    height: 40px;
 }
-  
+
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0 0 0);
+    background-color: rgb(0 0 0 / 40%);
 }
 
-/* 모달창 내용 */
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto; 
+    margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; 
+    width: 80%;
 }
 
-/* 닫기 버튼 */
 .close {
     color: #aaa;
     float: right;
@@ -69,8 +67,8 @@ body {
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.close:focus,
+.close:hover {
     color: black;
     text-decoration: none;
     cursor: pointer;
@@ -81,12 +79,13 @@ body {
     flex: 1;
 }
 
-.left, .right {
+.left,
+.right {
     flex: 1;
     padding: 20px;
     box-sizing: border-box;
     background-color: white;
-    overflow-y: scroll; /* 개별 스크롤 설정 */
+    overflow-y: scroll;
 }
 
 .left {
@@ -95,7 +94,7 @@ body {
 
 .form-group {
     display: flex;
-    align-items: center; /* 수직 중앙 정렬 */
+    align-items: center;
     margin-bottom: 10px;
 }
 
@@ -105,53 +104,53 @@ body {
 }
 
 .piece {
-    margin-right: 10px; /* 레이블과 텍스트 영역 간의 간격 설정 */
-    text-align: right; /* 레이블 텍스트 오른쪽 정렬 */
+    margin-right: 10px;
+    text-align: right;
 }
 
 .text-area {
-    width: 400px; /* 너비 설정 */
-    height: 140px; /* 높이 설정 */
+    width: 400px;
+    height: 140px;
     padding: 10px;
     box-sizing: border-box;
     margin-right: 10px;
-    overflow: scroll; /* 스크롤바 추가 */
-    resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
+    overflow: scroll;
+    resize: none;
 }
 
 .text-area2 {
-    width: 400px; /* 너비 설정 */
-    height: 70px; /* 높이 설정 */
+    width: 400px;
+    height: 70px;
     padding: 10px;
     box-sizing: border-box;
     margin-right: 10px;
-    overflow: scroll; /* 스크롤바 추가 */
-    resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
+    overflow: scroll;
+    resize: none;
 }
 
 .text-area3 {
-    width: 400px; /* 너비 설정 */
-    height: 45px; /* 높이 설정 */
+    width: 400px;
+    height: 45px;
     padding: 10px;
     box-sizing: border-box;
     margin-right: 10px;
-    overflow: scroll; /* 스크롤바 추가 */
-    resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
+    overflow: scroll;
+    resize: none;
 }
 
 .htmls-info {
-    margin-right: 2px; /* 레이블과 텍스트 영역 간의 간격 설정 */
-    text-align: right; /* 레이블 텍스트 오른쪽 정렬 */
+    margin-right: 2px;
+    text-align: right;
 }
 
 .text-area1 {
-    width: 400px; /* 너비 설정 */
-    height: 50px; /* 높이 설정 */
+    width: 400px;
+    height: 50px;
     padding: 10px;
     box-sizing: border-box;
     margin-right: 10px;
-    overflow: scroll; /* 스크롤바 추가 */
-    resize: none; /* 사용자가 크기 조절 불가능하게 설정 (원하는 경우) */
+    overflow: scroll;
+    resize: none;
 }
 
 .submit-button {
@@ -167,12 +166,12 @@ body {
 .help-icon {
     width: 30px;
     height: 30px;
-    margin-left: 10px; /* 버튼과의 간격 설정 */
+    margin-left: 10px;
 }
 
 .out-container {
     display: flex;
-    flex-direction: row; /* 가로 방향으로 배치 */
+    flex-direction: row;
     justify-content: space-around;
     margin-top: 10px;
 }
@@ -188,38 +187,38 @@ body {
     height: 270px;
     border: 1px solid #ccc;
     padding: 10px;
-    margin-top: 10px; /* Title과의 간격 조절 */
+    margin-top: 10px;
     overflow: auto;
     word-wrap: break-word;
 }
 
 #remainingContainer {
-    margin-top: 20px; /* 위의 박스들과의 간격 */
-    width: 100%; /* 전체 너비 사용 */
+    margin-top: 20px;
+    width: 100%;
 }
 
 .itemContainer {
     display: flex;
     align-items: flex-start;
     padding: 5px 0;
-    border-bottom: 1px solid #ddd; /* 구분선 */
+    border-bottom: 1px solid #ddd;
 }
 
 .itemContainer:last-child {
-    border-bottom: none; /* 마지막 아이템의 구분선 제거 */
+    border-bottom: none;
 }
 
 .indexBox {
     width: 30px;
     text-align: right;
     margin-right: 10px;
-    border-right: 1px solid #ddd; /* 인덱스 박스와 텍스트 박스 콘텐츠 사이의 선 */
-    padding-right: 10px; /* 선과 텍스트 간격 */
+    border-right: 1px solid #ddd;
+    padding-right: 10px;
 }
 
 .textBoxContent {
     flex-grow: 1;
-    padding-left: 10px; /* 선과 텍스트 간격 */
+    padding-left: 10px;
 }
 
 .spinner-overlay {
@@ -228,26 +227,31 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: rgb(255 255 255 / 80%);
     display: flex;
     justify-content: center;
     align-items: center;
-    /*display: none;*/
-  }
-  .spinner {
+}
+
+.spinner {
     border: 16px solid #f3f3f3;
     border-top: 16px solid #3498db;
     border-radius: 50%;
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;
-  }
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
+}
 
-/* WebKit 및 Blink (Chrome, Safari 등) */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 ::-webkit-scrollbar {
     width: 12px;
 }
@@ -265,8 +269,7 @@ body {
     background: #555;
 }
 
-/* Gecko (Firefox) */
 * {
-    scrollbar-width: thin; /* 'auto' 또는 'thin' */
-    scrollbar-color: #888 #f1f1f1; /* 핸들과 트랙 색상 */
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
 }

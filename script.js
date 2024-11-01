@@ -1,13 +1,17 @@
-let dictionary6=[];
-let dictionary5=[];
+import CombinationManager from './CombinationsManger.js';
+let dictionary6 = [];
+let dictionary5 = [];
 async function fetchTextFile6(url) {
     try {
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
         }
-        text = await response.text();
-        dictionary6 = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+        const text = await response.text();
+        dictionary6 = text
+            .split('\n')
+            .map(word => word.trim())
+            .filter(word => word.length > 0);
         return dictionary6;
     } catch (error) {
         console.error('Fetch operation failed:', error);
@@ -20,61 +24,67 @@ async function fetchTextFile5(url) {
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.statusText}`);
         }
-        text = await response.text();
-        dictionary5 = text.split('\n').map(word => word.trim()).filter(word => word.length > 0);
+        const text = await response.text();
+        dictionary5 = text
+            .split('\n')
+            .map(word => word.trim())
+            .filter(word => word.length > 0);
         return dictionary5;
     } catch (error) {
         console.error('Fetch operation failed:', error);
         return [];
     }
 }
-let pach=''
-fetch("https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/patchnote.txt")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok ' + response.statusText);
-    }
-    return response.text();
-  })
-  .then(data => {
-    pach=data
-    console.log('good'); // 여기서 텍스트 파일의 내용을 출력하거나 처리합니다.
-  })
-  .catch(error => {
-    console.error('There has been a problem with your fetch operation:', error);
-  });
-// 사용 예시
-const url6 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_words_listA.txt';
-fetchTextFile6(url6).then(() => {
-    console.log('a6'); // 가져온 단어 리스트를 출력
-});
+let pach = ''
+fetch(
+    "https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/patchnote" +
+    ".txt"
+)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.text();
+    })
+    .then(data => {
+        pach = data
 
-const url5 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len5_words_list2.txt';
-fetchTextFile5(url5).then(() => {
-    console.log('a5'); // 가져온 단어 리스트를 출력
-});
+    })
+    .catch(error => {
+        console.error('There has been a problem with your fetch operation:', error);
+    });
+// 사용 예시
+const url6 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_word' +
+        's_listA.txt';
+fetchTextFile6(url6).then(() => {});
+
+const url5 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len5_word' +
+        's_list2.txt';
+fetchTextFile5(url5).then(() => {});
 
 var modal = document.getElementById("Modal");
 var btn = document.getElementById("modalBtn");
 var span = document.getElementsByClassName("close")[0];
 var modalContent = document.getElementById("modalContent");
-btn.onclick = function() {
+btn.onclick = function () {
     modalContent.innerHTML = pach;
     modal.style.display = "block";
 }
 
-span.onclick = function() {
+span.onclick = function () {
     modal.style.display = "none";
 }
 
-window.onclick = function(event) {
-    if (event.target == modal) {
+window.onclick = function (event) {
+    if (event.target === modal) {
         modal.style.display = "none";
     }
 }
 
 function processHtml() {
-    var htmlString = document.getElementById('htmls-input').value;
+    var htmlString = document
+        .getElementById('htmls-input')
+        .value;
     const outputDiv1 = document.getElementById('jokak-normal');
     const outputDiv2 = document.getElementById('jokak-gogp');
     const outputDiv3 = document.getElementById('jokak-rare');
@@ -88,9 +98,15 @@ function processHtml() {
     const dressItems = doc.querySelectorAll('div.dress-item.expl-mother');
 
     dressItems.forEach(item => {
-        const countText = item.querySelector('div.jt-image.dress-item-image').textContent.trim();
+        const countText = item
+            .querySelector('div.jt-image.dress-item-image')
+            .textContent
+            .trim();
         const tCount = parseInt(countText.replace('x', ''), 10);
-        const charName = item.querySelector('div.dress-item-title').textContent.trim();
+        const charName = item
+            .querySelector('div.dress-item-title')
+            .textContent
+            .trim();
 
         if (charName.includes("고급 글자 조각")) {
             const chName = charName.replace("고급 글자 조각 - ", "");
@@ -107,200 +123,90 @@ function processHtml() {
     if (jswq === "") {
         jswq = "글자조각없음";
     }
-    if (jjswq===""){
-        jjswq="고급 글자조각 없음"
+    if (jjswq === "") {
+        jjswq = "고급 글자조각 없음"
     }
-    if (jjjswq===""){
-        jjjswq="희귀 글자조각 없음"
+    if (jjjswq === "") {
+        jjjswq = "희귀 글자조각 없음"
     }
     outputDiv1.value = jswq;
     outputDiv2.value = jjswq;
     outputDiv3.value = jjjswq;
-    document.getElementById('htmls-input').value = "";
+    document
+        .getElementById('htmls-input')
+        .value = "";
 
-    return {
-        jswq,
-        jjswq,
-        jjjswq
-    };
+    return {jswq, jjswq, jjjswq};
 }
-
-class CombinationManager {
-    constructor(syllable = '', words = []) {
-        this.syllable = syllable;
-        this.words = words;
-        this.possibleWords = [];
-        this.letterCount = {};
-        this.wordCount = {};
-    }
-
-    getBestAndRemove() {
-        const best = this.getBest();
-        this.deleteWord(best);
-        return best;
-    }
-
-    deleteWord(word) {
-        let deleted = this.syllable;
-        for (const char of word) {
-            deleted = deleted.replace(char, '');
-        }
-        this.syllable = deleted;
-    }
-
-    getBest() {
-        return Object.keys(this.wordCount).reduce((a, b) => this.wordCount[a] < this.wordCount[b] ? a : b);
-    }
-
-    counts() {
-        this.countLetter();
-        this.countWord();
-    }
-
-    findPossibleWords() {
-        if (this.possibleWords.length === 0) {
-            for (const word of this.words) {
-                if (this.exist(this.syllable, this.insert(word))) {
-                    this.possibleWords.push(word);
-                }
-            }
-        } else {
-            this.fastFindPossibleWords();
-        }
-    }
-
-    hasPossibleWord() {
-        return this.possibleWords.length > 0;
-    }
-
-    countWord() {
-        this.wordCount = {};
-        for (const word of this.possibleWords) {
-            let count = 0;
-            for (const letter of word) {
-                count += this.letterCount[letter] || 0;
-            }
-            this.wordCount[word] = count;
-        }
-    }
-
-    countLetter() {
-        this.letterCount = {};
-        for (const word of this.words) {
-            for (const letter of word) {
-                this.letterCount[letter] = (this.letterCount[letter] || 0) + 1;
-            }
-        }
-    }
-
-    fastFindPossibleWords() {
-        const temp = [];
-        for (const word of this.possibleWords) {
-            if (this.exist(this.syllable, this.insert(word))) {
-                temp.push(word);
-            }
-        }
-        this.possibleWords = temp;
-    }
-
-    insert(arr1) {
-        const arr = arr1.split('');
-        for (let i = 1; i < arr.length; i++) {
-            const standard = arr[i];
-            let aux = i - 1;
-            while (aux >= 0 && standard < arr[aux]) {
-                arr[aux + 1] = arr[aux];
-                aux--;
-            }
-            arr[aux + 1] = standard;
-        }
-        return arr.join('');
-    }
-
-    exist(syllable, word) {
-        let count = 0;
-        for (const s of syllable) {
-            if (s === word[count]) {
-                count++;
-            }
-            if (count === word.length) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    remainstr(){
-        return this.syllable
-    }
-}
-
-function makedata(manager1){
+/**
+ * 
+ * @param {CombinationManager} manager1 
+ * @returns {Array<string[]>}
+ */
+function makedata(manager1) {
+    const startTime = performance.now();
     let result6 = [];
-    if (manager1.hasPossibleWord()){
-        while (manager1.hasPossibleWord()){
+    if (manager1.hasPossibleWord()) {
+        while (manager1.hasPossibleWord()) {
             manager1.counts();
             const best = manager1.getBestAndRemove();
             result6.push(best);
             manager1.findPossibleWords();
         }
 
+    } else {
+        console.log('No possible words found.')
+        result6 = ['No possible words found.'];
     }
-    else{
-        result6=['No possible words found.'];
-    }
-    //const stingg = ;
-    //console.log(dictionary5.slice(0,7))
-    const manager2 = new CombinationManager(manager1.remainstr(), dictionary5);
+    console.log(result6.length);
+    const manager2=new CombinationManager(manager1.remainstr(),dictionary5);
     manager2.findPossibleWords();
     let result5 = [];
-    if (manager2.hasPossibleWord()){
-        while (manager2.hasPossibleWord()){
+    if (manager2.hasPossibleWord()) {
+        while (manager2.hasPossibleWord()) {
             manager2.counts();
             const best = manager2.getBestAndRemove();
             result5.push(best);
             manager2.findPossibleWords();
         }
 
-    }
-    else{
-        result5=['No possible words found.'];
+    } else {
+        result5 = ['No possible words found.'];
     }
     const remainingStrings = manager2.remainstr();
-    return [result6,result5,remainingStrings];
+    const endTime = performance.now();
+    console.log(`소요 시간: ${endTime - startTime} ms`);
+    return [result6, result5, remainingStrings];
 
 }
 
-
-
-function outdata(WordList6, WordList5, remainingStringa,mode) {
+function outdata(WordList6, WordList5, remainingStringa, mode) {
     const textBox1 = document.getElementById("textBox1");
     const textBox2 = document.getElementById("textBox2");
     const remainingContainer = document.getElementById("remainingContainer");
     let list6_len = WordList6.length;
     let lis5_len = WordList5.length;
-    if (WordList6[0]==='No possible words found.'){
-        list6_len-=1;
+    if (WordList6[0] === 'No possible words found.') {
+        list6_len -= 1;
     }
-    if (WordList5[0]==='No possible words found.'){
-        lis5_len-=1;
+    if (WordList5[0] === 'No possible words found.') {
+        lis5_len -= 1;
     }
-    const k1 = (list6_len*4) + (lis5_len*3); //낱장 갯수
-    const k2 = Math.floor(list6_len*0.857 + lis5_len*0.714); //일반 휘장 상자
-    const k3 = Math.floor(list6_len*0.4 + lis5_len*0.333); //고급 휘장 상자
-    const k4 = Math.floor(list6_len*0.467 + lis5_len*0.389); //일반 글자 조각
-    const k5 = Math.floor(list6_len*0.233 + lis5_len*0.194); //고급 글자 조각
+    const k1 = (list6_len * 4) + (lis5_len * 3); //낱장 갯수
+    const k2 = Math.floor(list6_len * 0.857 + lis5_len * 0.714); //일반 휘장 상자
+    const k3 = Math.floor(list6_len * 0.4 + lis5_len * 0.333); //고급 휘장 상자
+    const k4 = Math.floor(list6_len * 0.467 + lis5_len * 0.389); //일반 글자 조각
+    const k5 = Math.floor(list6_len * 0.233 + lis5_len * 0.194); //고급 글자 조각
 
-
-    let invalue=''
-    if (mode==='normal'){
+    let invalue = ''
+    if (mode === 'normal') {
         invalue = document.getElementById("jokak-normal");
-    }else if(mode==='gogp'){
+    } else if (mode === 'gogp') {
         invalue = document.getElementById("jokak-gogp");
-    }else {
+    } else {
         invalue = document.getElementById("jokak-rare");
     }
-  
+
     textBox1.innerHTML = "";
     textBox2.innerHTML = "";
     remainingContainer.innerHTML = "";
@@ -308,15 +214,15 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
     WordList6.forEach((word, index) => {
         const itemContainer = document.createElement("div");
         itemContainer.className = "itemContainer";
-      
+
         const indexBox = document.createElement("div");
         indexBox.className = "indexBox";
         indexBox.textContent = index + 1;
-      
+
         const textBoxContent = document.createElement("div");
         textBoxContent.className = "textBoxContent";
         textBoxContent.textContent = word;
-      
+
         itemContainer.appendChild(indexBox);
         itemContainer.appendChild(textBoxContent);
         textBox1.appendChild(itemContainer);
@@ -325,15 +231,15 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
     WordList5.forEach((word, index) => {
         const itemContainer = document.createElement("div");
         itemContainer.className = "itemContainer";
-      
+
         const indexBox = document.createElement("div");
         indexBox.className = "indexBox";
         indexBox.textContent = index + 1;
-      
+
         const textBoxContent = document.createElement("div");
         textBoxContent.className = "textBoxContent";
         textBoxContent.textContent = word;
-      
+
         itemContainer.appendChild(indexBox);
         itemContainer.appendChild(textBoxContent);
         textBox2.appendChild(itemContainer);
@@ -342,65 +248,91 @@ function outdata(WordList6, WordList5, remainingStringa,mode) {
     const remainingText = document.createElement("p");
     remainingText.textContent = `남은 글자들: ${remainingStringa}`;
     remainingContainer.appendChild(remainingText);
-    invalue.value=remainingStringa;
+    invalue.value = remainingStringa;
 
     const FunTextContent = document.getElementById('output1')
     FunTextContent.innerHTML = `낱장 갯수(확정): ${k1} <br>일반 휘장 상자(기댓값): ${k2} <br>고급 휘장 상자(기댓값): ${k3} <br>일반 글자 조각(기댓값): ${k4} <br>고급 글자 조각(기댓값): ${k5}`;
 
 }
 
-
 function processing(mode, str) {
-    const manager = new CombinationManager(str, dictionary6);
+    const manager = new CombinationManager(str,dictionary6);
     manager.findPossibleWords();
     const [wordList6, wordList5, remainingStringa] = makedata(manager);
     outdata(wordList6, wordList5, remainingStringa, mode);
 }
 
 var spinnerOverlay = document.getElementById('spinnerOverlay');
-spinnerOverlay.style.display='none';
+spinnerOverlay.style.display = 'none';
 
 function submit1() {
-    const jokakNormal = document.getElementById("jokak-normal").value.replace(/\s+/g, '');
+    //const startTime = performance.now();
+    const jokakNormal = document
+        .getElementById("jokak-normal")
+        .value
+        .replace(/\s+/g, '')
+        .split('')
+        .sort()
+        .join('');
     var spinnerOverlay = document.getElementById('spinnerOverlay');
     spinnerOverlay.style.display = 'flex';
     setTimeout(() => {
         try {
-            processing('normal',jokakNormal);
-          } catch (error) {
+            processing('normal', jokakNormal);
+        } catch (error) {
             console.error('An error occurred:', error);
-          } finally {
+        } finally {
             spinnerOverlay.style.display = 'none';
         }
     }, 1);
+    // const endTime = performance.now();
+    // console.log(`소요 시간: ${endTime - startTime} ms`);
 }
 
 function submit2() {
-    const jokakGogp = document.getElementById("jokak-gogp").value.replace(/\s+/g, '');
+    const jokakGogp = document
+        .getElementById("jokak-gogp")
+        .value
+        .replace(/\s+/g, '')
+        .split('')
+        .sort()
+        .join('');
     var spinnerOverlay = document.getElementById('spinnerOverlay');
     spinnerOverlay.style.display = 'flex';
     setTimeout(() => {
         try {
-            processing('gogp',jokakGogp);
-          } catch (error) {
+            processing('gogp', jokakGogp);
+        } catch (error) {
             console.error('An error occurred:', error);
-          } finally {
+        } finally {
             spinnerOverlay.style.display = 'none';
         }
     }, 1);
 }
 
 function submit3() {
-    const jokakRare = document.getElementById("jokak-rare").value.replace(/\s+/g, '');
+    const jokakRare = document
+        .getElementById("jokak-rare")
+        .value
+        .replace(/\s+/g, '')
+        .split('')
+        .sort()
+        .join('');
     var spinnerOverlay = document.getElementById('spinnerOverlay');
     spinnerOverlay.style.display = 'flex';
     setTimeout(() => {
         try {
-            processing('rare',jokakRare);
-          } catch (error) {
+            processing('rare', jokakRare);
+        } catch (error) {
             console.error('An error occurred:', error);
-          } finally {
+        } finally {
             spinnerOverlay.style.display = 'none';
         }
     }, 1);
 }
+
+
+window.submit1 = submit1;
+window.submit2 = submit2;
+window.submit3 = submit3;
+window.processHtml = processHtml;

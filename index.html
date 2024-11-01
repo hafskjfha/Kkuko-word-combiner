@@ -1,121 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <!-- Google Tag Manager -->
-    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-    })(window,document,'script','dataLayer','GTM-MBK4DFC4');</script>
-    <!-- End Google Tag Manager -->
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7EYGNWC1DL"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    <head>
+        <!-- Google Tag Manager -->
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != 'dataLayer'
+                        ? '&l=' + l
+                        : '';
+                j.async = true;
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+                f
+                    .parentNode
+                    .insertBefore(j, f);
+            })(window, document, 'script', 'dataLayer', 'GTM-MBK4DFC4');
+        </script>
+        <!-- End Google Tag Manager -->
+        <!-- Google tag (gtag.js) -->
+        <script
+            async="async"
+            src="https://www.googletagmanager.com/gtag/js?id=G-7EYGNWC1DL"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
 
-    gtag('config', 'G-7EYGNWC1DL');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>끄코 단어 조합기</title>
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./styles.css">
-</head>
-<body>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MBK4DFC4"
-    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    <div class="container">
-        <div class="header">
-            <h2>끄코 단어 조합기</h2>
-            <div class="header-right">
-                <a href="https://docs.google.com/document/d/11i3W-rA1t1E1yIODvd-UtWRGtzQNesDdVUu38kqpMoM/" target="_blank">
-                    <img src="./img/report-logo.jpeg" alt="버그신고">
-                </a>
-                <a>
-                    <img src="./img/patchnote-logo.svg" id="modalBtn" alt="패치노트">
-                </a>
-                <a href="https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE/" target="_blank">
-                    <img src="./img/info1-logo.svg" alt="인포메이션">
-                </a>
-                <a href="https://cafe.naver.com/kkutukorea" target="_blank">
-                    <img src="./img/navercafe-logo.webp" alt="네이버카페">
-                </a>
-                <a href="https://github.com/hafskjfha/Kkuko-word-combiner" target="_blank">
-                    <img src="./img/github-white-logo.svg" alt="깃허브">
-                </a>
-            </div>
-        </div>
-        
-        <div class="main">
-            <div id="Modal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <div id="modalContent"></div>
+            gtag('config', 'G-7EYGNWC1DL');
+        </script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>끄코 단어 조합기</title>
+        <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" href="./styles.css">
+    </head>
+    <body>
+        <!-- Google Tag Manager (noscript) -->
+        <noscript>
+            <iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-MBK4DFC4"
+                height="0"
+                width="0"
+                style="display:none;visibility:hidden"></iframe>
+        </noscript>
+        <!-- End Google Tag Manager (noscript) -->
+        <div class="container">
+            <div class="header">
+                <h2>끄코 단어 조합기</h2>
+                <div class="header-right">
+                    <a
+                        href="https://docs.google.com/document/d/11i3W-rA1t1E1yIODvd-UtWRGtzQNesDdVUu38kqpMoM/"
+                        target="_blank">
+                        <img src="./img/report-logo.jpeg" alt="버그신고">
+                    </a>
+                    <a>
+                        <img src="./img/patchnote-logo.svg" id="modalBtn" alt="패치노트">
+                    </a>
+                    <a
+                        href="https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE/"
+                        target="_blank">
+                        <img src="./img/info1-logo.svg" alt="인포메이션">
+                    </a>
+                    <a href="https://cafe.naver.com/kkutukorea" target="_blank">
+                        <img src="./img/navercafe-logo.webp" alt="네이버카페">
+                    </a>
+                    <a href="https://github.com/hafskjfha/Kkuko-word-combiner" target="_blank">
+                        <img src="./img/github-white-logo.svg" alt="깃허브">
+                    </a>
                 </div>
             </div>
-            <div id="spinnerOverlay" class="spinner-overlay">
-                <div class="spinner"></div>
-                <br>
-                <h2>please wait...</h2>
-            </div>
-            <div class="left">
-                <form>
-                    <div class="form-group">
-                        <label for="jokak-normal" class="piece">(일반)<br>글자조각: </label>
-                        <textarea id="jokak-normal" name="jokak-normal" class="text-area"></textarea>
-                        <button type="button" onclick="submit1()" class="submit-button" id="sub1">확인</button>
-                    </div>    
-                </form>
-                <br>
-                <form>
-                    <div class="form-group">
-                        <label for="jokak-gogp" class="piece">(고급)<br>글자조각: </label>
-                        <textarea id="jokak-gogp" name="jokak-gogp" class="text-area2"></textarea>
-                        <button type="button" onclick="submit2()" class="submit-button" id="sub2">확인</button>
-                    </div>    
-                </form>
-                <br>
-                <form>
-                    <div class="form-group">
-                        <label for="jokak-rare" class="piece">(희귀)<br>글자조각: </label>
-                        <textarea id="jokak-rare" name="jokak-rare" class="text-area3"></textarea>
-                        <button type="button" onclick="submit3()" class="submit-button2" id="sub3">확인</button>
-                    </div>    
-                </form>
-                <br>
-                <form>
-                    <div class="form-group">
-                        <label for="htmls-input" class="htmls-info">html 입력:</label>
-                        <textarea id="htmls-input" name="htmls-input" class="text-area1"></textarea>
-                        <button type="button" onclick="processHtml()" class="submit-button" id="sub4">확인</button>
-                        <a href="https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE/edit#heading=h.jdfrwhkk43rr" target="_blank">
-                            <img src="./img/help1-log.svg" alt="도움말" class="help-icon">
-                        </a>
-                    </div>
-                </form>
-            </div>
-            
-            <div class="right">
-                <div id="out-container" class="out-container">
-                    <div id="textBoxWrapper1" class="textBoxWrapper">
-                        <h6>만들어진 6글자 단어</h6>
-                        <div id="textBox1" class="textBox"></div>
-                    </div>
-                    <div id="textBoxWrapper2" class="textBoxWrapper">
-                        <h6>만들어진 5글자 단어</h6>
-                        <div id="textBox2" class="textBox"></div>
+
+            <div class="main">
+                <div id="Modal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div id="modalContent"></div>
                     </div>
                 </div>
-                <br>
-                <div id="remainingContainer"></div>
-                <div id="output1"></div>
+                <div id="spinnerOverlay" class="spinner-overlay">
+                    <div class="spinner"></div>
+                    <br>
+                    <h2>please wait...</h2>
+                </div>
+                <div class="left">
+                    <form>
+                        <div class="form-group">
+                            <label for="jokak-normal" class="piece">(일반)<br>글자조각:
+                            </label>
+                            <textarea id="jokak-normal" name="jokak-normal" class="text-area"></textarea>
+                            <button type="button" onclick="submit1()" class="submit-button" id="sub1">확인</button>
+                        </div>
+                    </form>
+                    <br>
+                    <form>
+                        <div class="form-group">
+                            <label for="jokak-gogp" class="piece">(고급)<br>글자조각:
+                            </label>
+                            <textarea id="jokak-gogp" name="jokak-gogp" class="text-area2"></textarea>
+                            <button type="button" onclick="submit2()" class="submit-button" id="sub2">확인</button>
+                        </div>
+                    </form>
+                    <br>
+                    <form>
+                        <div class="form-group">
+                            <label for="jokak-rare" class="piece">(희귀)<br>글자조각:
+                            </label>
+                            <textarea id="jokak-rare" name="jokak-rare" class="text-area3"></textarea>
+                            <button type="button" onclick="submit3()" class="submit-button2" id="sub3">확인</button>
+                        </div>
+                    </form>
+                    <br>
+                    <form>
+                        <div class="form-group">
+                            <label for="htmls-input" class="htmls-info">html 입력:</label>
+                            <textarea id="htmls-input" name="htmls-input" class="text-area1"></textarea>
+                            <button type="button" onclick="processHtml()" class="submit-button" id="sub4">확인</button>
+                            <a
+                                href="https://docs.google.com/document/d/1wlX4TaC4Y_b-Dnjjy5uXc0GwWpFy7GGE2EWwAAeLcSE/edit#heading=h.jdfrwhkk43rr"
+                                target="_blank">
+                                <img src="./img/help1-log.svg" alt="도움말" class="help-icon">
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="right">
+                    <div id="out-container" class="out-container">
+                        <div id="textBoxWrapper1" class="textBoxWrapper">
+                            <h6>만들어진 6글자 단어</h6>
+                            <div id="textBox1" class="textBox"></div>
+                        </div>
+                        <div id="textBoxWrapper2" class="textBoxWrapper">
+                            <h6>만들어진 5글자 단어</h6>
+                            <div id="textBox2" class="textBox"></div>
+                        </div>
+                    </div>
+                    <br>
+                    <div id="remainingContainer"></div>
+                    <div id="output1"></div>
+                </div>
             </div>
+            <script src="./script.js" type="module"></script>
         </div>
-        <script src="./script.js"></script>
-    </div>
-</body>
+    </body>
 </html>

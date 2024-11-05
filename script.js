@@ -147,8 +147,9 @@ function makedata(manager1) {
     const startTime = performance.now();
     let result6 = [];
     if (manager1.hasPossibleWord()) {
+        manager1.counts();
         while (manager1.hasPossibleWord()) {
-            manager1.counts();
+            manager1.countWord();
             const best = manager1.getBestAndRemove();
             result6.push(best);
             manager1.findPossibleWords();
@@ -163,8 +164,9 @@ function makedata(manager1) {
     manager2.findPossibleWords();
     let result5 = [];
     if (manager2.hasPossibleWord()) {
+        manager2.counts();
         while (manager2.hasPossibleWord()) {
-            manager2.counts();
+            manager2.countWord();
             const best = manager2.getBestAndRemove();
             result5.push(best);
             manager2.findPossibleWords();

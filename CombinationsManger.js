@@ -1,5 +1,5 @@
 /**
- * 학교 정보를 가지고 오는 비동기 함수
+ * 단어 조합 매니저
  * 
  * @param {string} syllable 글자
  * @param {string[]} words 사용가능한 단어 목록

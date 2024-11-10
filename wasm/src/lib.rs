@@ -72,100 +72,110 @@ impl CombinationManager {
             .cloned()
             .collect();
 
+        // 삭제할 단어를 기록할 벡터
+        let mut to_delete: Vec<String> = Vec::new();
+
         for word in words_to_check {
             if self.exist(& word) {
                 result.push(word.clone());
                 self.delete_word(& word);
-                self
-                    .word_count
-                    .remove(& word);
+            } else {
+                to_delete.push(word.clone());
             }
+        }
+
+        // 삭제할 단어들을 실제로 `word_count`에서 제거
+        for word in to_delete {
+            self
+                .word_count
+                .remove(& word);
         }
 
         if result.is_empty() {
             result.push("No possible words found.".to_string());
         }
+
         result
     }
 
-    fn delete_word(& mut self, word : &str) {
-        for c in word.chars() {
-            if let Some(count) = self.syllable_count.get_mut(& c) { * count -= 1;
-            }
+fn delete_word(& mut self, word : &str) {
+    for c in word.chars() {
+        if let Some(count) = self.syllable_count.get_mut(& c) { * count -= 1;
         }
     }
+}
 
-    fn find_possible_words(& mut self) {
-        if self.possible_words.is_empty() {
-            for word in & self.words {
-                if self.exist(word) {
-                    self
-                        .possible_words
-                        .push(word.clone());
-                }
+fn find_possible_words(& mut self) {
+    if self.possible_words.is_empty() {
+        for word in & self.words {
+            if self.exist(word) {
+                self
+                    .possible_words
+                    .push(word.clone());
             }
-        } else {
-            let temp: Vec<String> = self
-                .possible_words
-                .iter()
-                .filter(| word | self.exist(word))
-                .cloned()
-                .collect();
-            self.possible_words = temp;
         }
+    } else {
+        let temp: Vec<String> = self
+            .possible_words
+            .iter()
+            .filter(| word | self.exist(word))
+            .cloned()
+            .collect();
+        self.possible_words = temp;
     }
+}
 
-    fn count_word(& mut self) {
+fn count_word(& mut self) {
+    self
+        .word_count
+        .clear();
+    for word in & self.possible_words {
+        let count: u32 = word
+            .chars()
+            .map(| c | * self.letter_count.get(& c).unwrap_or(& 0))
+            .sum();
         self
             .word_count
-            .clear();
-        for word in & self.possible_words {
-            let count: u32 = word
-                .chars()
-                .map(| c | * self.letter_count.get(& c).unwrap_or(& 0))
-                .sum();
-            self
-                .word_count
-                .insert(word.clone(), count);
+            .insert(word.clone(), count);
+    }
+}
+
+fn count_letter(& mut self) {
+    self
+        .letter_count
+        .clear();
+    for word in & self.words {
+        for c in word.chars() { * self
+                .letter_count
+                .entry(c)
+                .or_insert(0) += 1;
         }
     }
+}
 
-    fn count_letter(& mut self) {
-        self
-            .letter_count
-            .clear();
-        for word in & self.words {
-            for c in word.chars() { * self
-                    .letter_count
-                    .entry(c)
-                    .or_insert(0) += 1;
-            }
-        }
-    }
-
-    fn count_syllable(& mut self) {
-        self
+fn count_syllable(& mut self) {
+    self
+        .syllable_count
+        .clear();
+    for c in self.syllable.chars() { * self
             .syllable_count
-            .clear();
-        for c in self.syllable.chars() { * self
-                .syllable_count
-                .entry(c)
-                .or_insert(0) += 1;
-        }
+            .entry(c)
+            .or_insert(0) += 1;
+    }
+}
+
+fn exist(& self, word : &str) -> bool {
+    let mut temp: HashMap<char, u32> = HashMap::new();
+    for c in word.chars() { * temp
+            .entry(c)
+            .or_insert(0) += 1;
     }
 
-    fn exist(& self, word : &str) -> bool {
-        let mut temp: HashMap<char, u32> = HashMap::new();
-        for c in word.chars() { * temp
-                .entry(c)
-                .or_insert(0) += 1;
-        }
-
-        for (c, & count) in & temp {
-                if  * self.syllable_count.get(c).unwrap_or(& 0) < count {
-                    return false;
-                }
+    for (c, & count) in & temp {
+            if  * self.syllable_count.get(c).unwrap_or(& 0) < count {
+                return false;
             }
-        true
+        }
+    true
 }
 }

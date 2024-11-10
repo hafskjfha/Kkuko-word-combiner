@@ -1,85 +1,135 @@
 /**
- * 학교 정보를 가지고 오는 비동기 함수
+ * Map객체 정렬하는 함수 
  * 
- * @param {string} syllable 글자
- * @param {string[]} words 사용가능한 단어 목록
+ * 우선순위 : 
+ * 
+ * 1.value의 값(오름차순)
+ * 
+ * 2.key의 유니코드 값 (우름차순)
+ * @param {Map<string, number>} map 정렬할 map 객체
+ * @returns {Map<string, number>} 정렬된 map 객체
+ */
+function sortMap(map) {
+    // Map을 배열로 변환하여 정렬한 후, 다시 Map 객체로 변환
+    const sortedEntries = [...map.entries()]
+      .sort(([keyA, valueA], [keyB, valueB]) => {
+        // 값이 작을 순으로 정렬
+        if (valueA !== valueB) {
+          return valueA - valueB;
+        }
+        // 값이 같으면 키를 알파벳 순으로 정렬
+        return keyA.localeCompare(keyB);
+      });
+  
+    // 정렬된 배열을 Map으로 변환하여 반환
+    return new Map(sortedEntries);
+}
+
+/**
+ *  단어 조합 매니저 클래스
  */
 class CombinationManagerjs {
+
     constructor(syllable = '', words = []) {
-        // 초기화
         this.syllable = syllable;           // 음절(문자열)을 저장
         this.words = words;                 // 전체 단어 리스트를 저장
         this.possibleWords = [];            // 가능한 단어 목록을 저장
         this.letterCount = {};              // 각 글자의 빈도수를 저장
-        this.wordCount = {};                // 각 단어의 점수를 저장
+        this.wordCount = new Map();         // 각 단어의 점수를 저장
+        this.syllableCount = {};            // 음절(문자열) 빈도수를 저장
+        this.__init__();
     }
 
-    // 가장 적합한 단어를 찾아 반환하고, syllable에서 해당 단어를 삭제
-    getBestAndRemove() {
-        const best = this.getBest();
-        this.deleteWord(best);              
-        return best;                        
+    /**
+     * 기본 setting 함수 (단어 배열 처리 / 음절 처리 / 만들수 있는 단어 선별)
+     */
+    __init__() {
+        this.countLetter();
+        this.countSyllable();
+        this.findPossibleWords();
+        this.countWord();
+        this.wordCount = sortMap(this.wordCount);
     }
 
-    // syllable에서 주어진 단어의 문자를 삭제
-    deleteWord(word) {
-        let deleted = this.syllable;        
-        for (const char of word) {
-            deleted = deleted.replace(char, '');  
+    /**
+     * 주어진 음절,주어진 단어목록으로 만들수 있는 단어들을 그리디 접근적으로 하여 단어를 만드는 함수
+     * @returns {string[]} 만들수 있는단어 목록
+     */
+    getBests() {
+        const temp = [];
+        while (this.wordCount.size > 0) {
+            for (const [word, c] of this.wordCount) {
+                if (this.exist(word)) {
+                    temp.push(word); // 만들수 있으면 반환배열 추가 (그리디로 얻은것들을 정렬하여 앞에 두었으므로 첫키가 탐욕적으로 최상의 결과임.)
+                    this.deleteWord(word);
+                    break;
+                } else {
+                    this.wordCount.delete(word); // 없으면 제거(다음에 탐색에서 제거)
+                }
+            }
         }
-        this.syllable = deleted;            
+        return temp.length > 0 ? temp : ['No possible words found.'];
     }
 
-    // 가장 높은 점수를 가진 단어 반환
-    getBest() {
-        return Object
-            .keys(this.wordCount)           
-            .reduce(
-                (a, b) => this.wordCount[a] < this.wordCount[b] // 점수가 낮을수록 우선
-                    ? a
-                    : b
-            );
+    /**
+     * 음절 카운트에서 감소하는 것을 처리하는 함수
+     * @param {string} word 사용가능한 음절 목록에서 삭제할 음절들 
+     */
+    deleteWord(word) {
+        for (const s of word) {
+            this.syllableCount[s]--;
+        }
     }
 
-    // 각 글자와 단어의 빈도수 카운팅
-    counts() {
-        this.countLetter();                 
-        this.countWord();                   
-    }
-
-    // syllable을 포함할 수 있는 가능한 단어 찾기
+    /**
+     * 가능한 단어 찾는 함수
+     */
     findPossibleWords() {
         if (this.possibleWords.length === 0) {
-            // 초기 상태일 경우 words 목록에서 가능성 있는 단어를 찾음
             for (const word of this.words) {
-                if (this.exist(this.syllable, this.insert(word))) {
-                    this.possibleWords.push(word); // 가능한 단어 추가
+                if (this.exist(word)) {
+                    this.possibleWords.push(word);
                 }
             }
         } else {
-            // 이미 가능한 단어가 있는 경우, 빠르게 가능한 단어를 필터링
             this.fastFindPossibleWords();
         }
     }
 
-    // 가능한 단어가 존재하는지 확인
-    hasPossibleWord() {
-        return this.possibleWords.length > 0;
+    /**
+     * 가능한 단어 찾는 함수(이미 가능한 단어 배열이 있을때만 호출. -> 가능한 단어 배열중 만들수 없는 단어들 cutting.)
+     */
+    fastFindPossibleWords() {
+        const temp = [];
+        for (const word of this.possibleWords) {
+            if (this.exist(word)) {
+                temp.push(word);
+            }
+        }
+        this.possibleWords = temp;
     }
 
-    // 가능한 단어의 점수 계산
+    /**
+     * 가능한 단어들을 그리디 접근적으로 처리하는 함수 
+     * 
+     * 단어 사전에 있는 글자들의 출현 횟수를 점수로 취급
+     * 
+     * 점수가 작을수록 최상이라는 탐욕접근
+     */
     countWord() {
-        this.wordCount = {};                // wordCount 초기화
+        this.wordCount = new Map();                // wordCount 초기화
         for (const word of this.possibleWords) {
             let count = 0;
             for (const letter of word) {
                 count += this.letterCount[letter] || 0;  // 각 글자의 빈도 합산
             }
-            this.wordCount[word] = count;    // 단어별 점수 저장
+            this.wordCount.set(word, count);    // 단어별 점수 저장
         }
     }
 
-    // 각 글자의 빈도수 계산
+    /**
+     * 단어 사전의 단어들의 글자 출현 횟수 countting 함수 (나중에 단어들의 점수로 활용됨)
+     */
     countLetter() {
         this.letterCount = {};              // letterCount 초기화
         for (const word of this.words) {
@@ -90,39 +140,47 @@ class CombinationManagerjs {
         }
     }
 
-    // 가능한 단어 리스트에서 syllable에 존재하는 단어만 유지
-    fastFindPossibleWords() {
-        const temp = [];
-        for (const word of this.possibleWords) {
-            if (this.exist(this.syllable, this.insert(word))) {
-                temp.push(word);             // syllable에 존재하는 단어만 추가
+    /**
+     * 사용가능한 음절들을 countting하는 함수(음절 문자열에서 replace하는것 보다 효율적일듯)
+     */
+    countSyllable() {
+        this.syllableCount = {};
+        for (const s of this.syllable) {
+            this.syllableCount[s] = (this.syllableCount[s] || 0) + 1;
+        }
+    }
+
+    /**
+     * 만들수 있는지 확인하는 함수
+     * @param {string} word 만들수 있는 단어인지 확인할 대상
+     * @returns {boolean} 만들수 있으면 true / 만들수 없으면 false
+     */
+    exist(word) {
+        const temp = {};
+        for (const s of word) {
+            temp[s] = (temp[s] || 0) + 1;
+        }
+
+        for (const s of word) {
+            if (!this.syllableCount[s] || (this.syllableCount[s] < temp[s])) {
+                return false;
             }
         }
-        this.possibleWords = temp;           // 필터링된 리스트로 갱신
+        return true;
     }
 
-    // 문자열을 알파벳 순으로 정렬하여 반환
-    insert(arr1) {
-        return arr1.split('').sort().join('');
-    }
-
-    // syllable에 특정 word가 순서대로 존재하는지 확인
-    exist(syllable, word) {
-        let count = 0;
-        for (const s of syllable) {
-            if (s === word[count]) {         // syllable의 문자와 word의 문자가 일치하는 경우
-                count++;
-            }
-            if (count === word.length) {     // word의 모든 문자가 매칭되는 경우
-                return true;
-            }
-        }
-        return false;                        // 일치하지 않으면 false 반환
-    }
-
-    // 현재 남아있는 syllable을 반환
+    /**
+     * 남아 있는 음절들을 정렬하여 반환하는 함수
+     * @returns {string} 정렬된 음절 문자열
+     */
     remainstr() {
-        return this.syllable;
+        const result = [];
+        for (const [syllable, count] of Object.entries(this.syllableCount)) {
+            if (count > 0) {
+                result.push(syllable.repeat(count));
+            }
+        }
+        return result.sort().join('');
     }
 }
 

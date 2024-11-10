@@ -145,36 +145,12 @@ function processHtml() {
  */
 function makedata(manager1) {
     const startTime = performance.now();
-    let result6 = [];
-    if (manager1.hasPossibleWord()) {
-        manager1.counts();
-        while (manager1.hasPossibleWord()) {
-            manager1.countWord();
-            const best = manager1.getBestAndRemove();
-            result6.push(best);
-            manager1.findPossibleWords();
-        }
-
-    } else {
-        console.log('No possible words found.')
-        result6 = ['No possible words found.'];
-    }
+    const result6 = manager1.getBests();
+    
     console.log(result6.length);
     const manager2=new CombinationManager(manager1.remainstr(),dictionary5);
-    manager2.findPossibleWords();
-    let result5 = [];
-    if (manager2.hasPossibleWord()) {
-        manager2.counts();
-        while (manager2.hasPossibleWord()) {
-            manager2.countWord();
-            const best = manager2.getBestAndRemove();
-            result5.push(best);
-            manager2.findPossibleWords();
-        }
-
-    } else {
-        result5 = ['No possible words found.'];
-    }
+    const result5 = manager2.getBests();
+    
     const remainingStrings = manager2.remainstr();
     const endTime = performance.now();
     console.log(`소요 시간: ${endTime - startTime} ms`);
@@ -259,7 +235,6 @@ function outdata(WordList6, WordList5, remainingStringa, mode) {
 
 function processing(mode, str) {
     const manager = new CombinationManager(str,dictionary6);
-    manager.findPossibleWords();
     const [wordList6, wordList5, remainingStringa] = makedata(manager);
     outdata(wordList6, wordList5, remainingStringa, mode);
 }

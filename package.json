@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "끄코 낱장용 단어 조합기",
   "main": "script.js",
+  "type": "module",
   "scripts": {
     "lint:html": "htmlhint **/*.html",
     "lint:css": "stylelint **/*.css",

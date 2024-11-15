@@ -12,6 +12,7 @@ async function fetchTextFile6(url) {
             .split('\n')
             .map(word => word.trim())
             .filter(word => word.length > 0);
+        //console.log('sy')
         return dictionary6;
     } catch (error) {
         console.error('Fetch operation failed:', error);
@@ -56,7 +57,7 @@ fetch(
 // 사용 예시
 const url6 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len6_word' +
         's_listA.txt';
-fetchTextFile6(url6).then(() => {});
+fetchTextFile6(url6).then(async () => {await test();});
 
 const url5 = 'https://raw.githubusercontent.com/hafskjfha/Kkuko-word-combiner/main/len5_word' +
         's_list2.txt';
@@ -313,3 +314,22 @@ window.submit1 = submit1;
 window.submit2 = submit2;
 window.submit3 = submit3;
 window.processHtml = processHtml;
+
+import init, { CombinationManager as CombinationManagerwasm } from "./wasm/pkg/wasm.js";
+
+async function test() {
+    await init();
+    const com=new CombinationManagerwasm();
+    for (let i = 0; i < dictionary6.length; i += 5000){
+        const chunk = dictionary6.slice(i, i + 5000);
+        com.add_words(chunk)
+    }
+    console.log('e')
+    //com.add_words(dictionary6);
+    console.log(dictionary6.length)
+    com.add_syllable('가객객객객것게게격겹고곡곡곤곶관관교구구굴기기기끌끔나나나나나나나난낭넘네녀년느는니다단단단담대대댕댕더독동동두둑둑득디딘딱뛰라락래랙램렌령루르름리리리리리립릿마마마멍며면면면명묘묘문바바바박배배뱀버범범법보복봄봇불불브브빛뻑사사사사사샅생선섯성세션션쇼수수수순슛스스스스스스슴시식싱아아아아악암압앙약업에오요육을을을의의이이이인잇잔잡쟌정정제족족종좋죄죄주준쥭즘즙지지짚찜차차차찬촉츠층층층층층치칙친친컬코코코크크클키킨킵타타타탈탕터토톤톤톤트트트틀틀틴파파판팬펠포폰푸풀품프프프한한합핸험험호화화화화');
+    const d=performance.now();
+    console.log(com.get_bests());
+    console.log(performance.now()-d);
+}
+

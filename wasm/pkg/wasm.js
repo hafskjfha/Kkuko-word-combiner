@@ -1,6 +1,8 @@
 let wasm;
 
-let WASM_VECTOR_LEN = 0;
+const cachedTextDecoder = (typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { ignoreBOM: true, fatal: true }) : { decode: () => { throw Error('TextDecoder not available') } } );
+
+if (typeof TextDecoder !== 'undefined') { cachedTextDecoder.decode(); };
 
 let cachedUint8ArrayMemory0 = null;
 
@@ -10,6 +12,13 @@ function getUint8ArrayMemory0() {
     }
     return cachedUint8ArrayMemory0;
 }
+
+function getStringFromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    return cachedTextDecoder.decode(getUint8ArrayMemory0().subarray(ptr, ptr + len));
+}
+
+let WASM_VECTOR_LEN = 0;
 
 const cachedTextEncoder = (typeof TextEncoder !== 'undefined' ? new TextEncoder('utf-8') : { encode: () => { throw Error('TextEncoder not available') } } );
 
@@ -78,15 +87,6 @@ function getDataViewMemory0() {
     return cachedDataViewMemory0;
 }
 
-const cachedTextDecoder = (typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8', { ignoreBOM: true, fatal: true }) : { decode: () => { throw Error('TextDecoder not available') } } );
-
-if (typeof TextDecoder !== 'undefined') { cachedTextDecoder.decode(); };
-
-function getStringFromWasm0(ptr, len) {
-    ptr = ptr >>> 0;
-    return cachedTextDecoder.decode(getUint8ArrayMemory0().subarray(ptr, ptr + len));
-}
-
 function addToExternrefTable0(obj) {
     const idx = wasm.__externref_table_alloc();
     wasm.__wbindgen_export_2.set(idx, obj);
@@ -101,6 +101,17 @@ function passArrayJsValueToWasm0(array, malloc) {
     }
     WASM_VECTOR_LEN = array.length;
     return ptr;
+}
+
+function getArrayJsValueFromWasm0(ptr, len) {
+    ptr = ptr >>> 0;
+    const mem = getDataViewMemory0();
+    const result = [];
+    for (let i = ptr; i < ptr + 4 * len; i += 4) {
+        result.push(wasm.__wbindgen_export_2.get(mem.getUint32(i, true)));
+    }
+    wasm.__externref_drop_slice(ptr, len);
+    return result;
 }
 
 const CombinationManagerFinalization = (typeof FinalizationRegistry === 'undefined')
@@ -120,13 +131,8 @@ export class CombinationManager {
         const ptr = this.__destroy_into_raw();
         wasm.__wbg_combinationmanager_free(ptr, 0);
     }
-    /**
-     * @param {string} syllable
-     */
-    constructor(syllable) {
-        const ptr0 = passStringToWasm0(syllable, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
-        const len0 = WASM_VECTOR_LEN;
-        const ret = wasm.combinationmanager_new(ptr0, len0);
+    constructor() {
+        const ret = wasm.combinationmanager_new();
         this.__wbg_ptr = ret >>> 0;
         CombinationManagerFinalization.register(this, this.__wbg_ptr, this);
         return this;
@@ -140,44 +146,21 @@ export class CombinationManager {
         wasm.combinationmanager_add_words(this.__wbg_ptr, ptr0, len0);
     }
     /**
-     * @returns {string | undefined}
+     * @param {string} syllable
      */
-    get_best_and_remove() {
-        const ret = wasm.combinationmanager_get_best_and_remove(this.__wbg_ptr);
-        let v1;
-        if (ret[0] !== 0) {
-            v1 = getStringFromWasm0(ret[0], ret[1]).slice();
-            wasm.__wbindgen_free(ret[0], ret[1] * 1, 1);
-        }
+    add_syllable(syllable) {
+        const ptr0 = passStringToWasm0(syllable, wasm.__wbindgen_malloc, wasm.__wbindgen_realloc);
+        const len0 = WASM_VECTOR_LEN;
+        wasm.combinationmanager_add_syllable(this.__wbg_ptr, ptr0, len0);
+    }
+    /**
+     * @returns {(string)[]}
+     */
+    get_bests() {
+        const ret = wasm.combinationmanager_get_bests(this.__wbg_ptr);
+        var v1 = getArrayJsValueFromWasm0(ret[0], ret[1]).slice();
+        wasm.__wbindgen_free(ret[0], ret[1] * 4, 4);
         return v1;
-    }
-    counts() {
-        wasm.combinationmanager_counts(this.__wbg_ptr);
-    }
-    find_possible_words() {
-        wasm.combinationmanager_find_possible_words(this.__wbg_ptr);
-    }
-    /**
-     * @returns {boolean}
-     */
-    has_possible_word() {
-        const ret = wasm.combinationmanager_has_possible_word(this.__wbg_ptr);
-        return ret !== 0;
-    }
-    /**
-     * @returns {string}
-     */
-    remainstr() {
-        let deferred1_0;
-        let deferred1_1;
-        try {
-            const ret = wasm.combinationmanager_remainstr(this.__wbg_ptr);
-            deferred1_0 = ret[0];
-            deferred1_1 = ret[1];
-            return getStringFromWasm0(ret[0], ret[1]);
-        } finally {
-            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
-        }
     }
 }
 
@@ -188,7 +171,7 @@ async function __wbg_load(module, imports) {
                 return await WebAssembly.instantiateStreaming(module, imports);
 
             } catch (e) {
-                if (module.headers.get('Content-Type') !== 'application/wasm') {
+                if (module.headers.get('Content-Type') != 'application/wasm') {
                     console.warn("`WebAssembly.instantiateStreaming` failed because your server does not serve Wasm with `application/wasm` MIME type. Falling back to `WebAssembly.instantiate` which is slower. Original error:\n", e);
 
                 } else {
@@ -215,6 +198,10 @@ async function __wbg_load(module, imports) {
 function __wbg_get_imports() {
     const imports = {};
     imports.wbg = {};
+    imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
+        const ret = getStringFromWasm0(arg0, arg1);
+        return ret;
+    };
     imports.wbg.__wbindgen_string_get = function(arg0, arg1) {
         const obj = arg1;
         const ret = typeof(obj) === 'string' ? obj : undefined;

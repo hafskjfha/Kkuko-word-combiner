@@ -2,28 +2,19 @@
 /* eslint-disable */
 export class CombinationManager {
   free(): void;
-  /**
-   * @param {string} syllable
-   */
-  constructor(syllable: string);
+  constructor();
   /**
    * @param {(string)[]} new_words
    */
   add_words(new_words: (string)[]): void;
   /**
-   * @returns {string | undefined}
+   * @param {string} syllable
    */
-  get_best_and_remove(): string | undefined;
-  counts(): void;
-  find_possible_words(): void;
+  add_syllable(syllable: string): void;
   /**
-   * @returns {boolean}
+   * @returns {(string)[]}
    */
-  has_possible_word(): boolean;
-  /**
-   * @returns {string}
-   */
-  remainstr(): string;
+  get_bests(): (string)[];
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -31,17 +22,15 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
   readonly __wbg_combinationmanager_free: (a: number, b: number) => void;
-  readonly combinationmanager_new: (a: number, b: number) => number;
+  readonly combinationmanager_new: () => number;
   readonly combinationmanager_add_words: (a: number, b: number, c: number) => void;
-  readonly combinationmanager_get_best_and_remove: (a: number) => Array;
-  readonly combinationmanager_counts: (a: number) => void;
-  readonly combinationmanager_find_possible_words: (a: number) => void;
-  readonly combinationmanager_has_possible_word: (a: number) => number;
-  readonly combinationmanager_remainstr: (a: number) => Array;
+  readonly combinationmanager_add_syllable: (a: number, b: number, c: number) => void;
+  readonly combinationmanager_get_bests: (a: number) => Array;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;
   readonly __externref_table_alloc: () => number;
+  readonly __externref_drop_slice: (a: number, b: number) => void;
   readonly __wbindgen_free: (a: number, b: number, c: number) => void;
   readonly __wbindgen_start: () => void;
 }

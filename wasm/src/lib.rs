@@ -51,6 +51,31 @@ impl CombinationManager {
         }
     }
 
+    #[wasm_bindgen]
+    pub fn get_bests(&mut self)->Vec<String>{
+        let mut temp: Vec<String>=Vec::new();
+        while !self.words_countz.is_empty() {
+            let mut i:u64=0;
+            for (word,c) in self.words_countz{
+                if self.exist(&word){
+                    temp.push(word.clone());
+                    self.delete_word(&word);
+                    break;
+                }
+                else{
+                    i+=1;
+                }
+            }
+            for _ in 0..i{
+                self.words_countz.pop_front();
+            }
+        }
+        if temp.is_empty(){
+            temp.push("No possible words found.".to_string());
+        }
+        temp
+    }
+
     fn count_syllable(&mut self){
         self.syllable_count.clear();
         for c in self.syllable.chars(){
@@ -124,6 +149,4 @@ impl CombinationManager {
         self.sort_map();
     }
 
-    
-    
 }

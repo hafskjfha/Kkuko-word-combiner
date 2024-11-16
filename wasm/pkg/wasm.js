@@ -153,6 +153,9 @@ export class CombinationManager {
         const len0 = WASM_VECTOR_LEN;
         wasm.combinationmanager_add_syllable(this.__wbg_ptr, ptr0, len0);
     }
+    count_letter() {
+        wasm.combinationmanager_count_letter(this.__wbg_ptr);
+    }
     /**
      * @returns {(string)[]}
      */
@@ -162,8 +165,20 @@ export class CombinationManager {
         wasm.__wbindgen_free(ret[0], ret[1] * 4, 4);
         return v1;
     }
-    count_letter() {
-        wasm.combinationmanager_count_letter(this.__wbg_ptr);
+    /**
+     * @returns {string}
+     */
+    remainstr() {
+        let deferred1_0;
+        let deferred1_1;
+        try {
+            const ret = wasm.combinationmanager_remainstr(this.__wbg_ptr);
+            deferred1_0 = ret[0];
+            deferred1_1 = ret[1];
+            return getStringFromWasm0(ret[0], ret[1]);
+        } finally {
+            wasm.__wbindgen_free(deferred1_0, deferred1_1, 1);
+        }
     }
 }
 

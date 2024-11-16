@@ -44,7 +44,7 @@ impl CombinationManager {
 
     #[wasm_bindgen]
     pub fn count_letter(&mut self){
-        for &word in &self.words{
+        for word in &self.words{
             for c in word.chars(){
                 *self.letter_count.entry(c).or_insert(0) +=1;
             }
@@ -56,15 +56,19 @@ impl CombinationManager {
         let mut temp: Vec<String>=Vec::new();
         while !self.words_countz.is_empty() {
             let mut i:u64=0;
-            for (word,c) in self.words_countz{
+            let mut word_to_delete = None;
+            for (word,_c) in &self.words_countz{
                 if self.exist(&word){
                     temp.push(word.clone());
-                    self.delete_word(&word);
+                    word_to_delete = Some(word.clone());
                     break;
                 }
                 else{
                     i+=1;
                 }
+            }
+            if let Some(word) = word_to_delete {
+                self.delete_word(&word);
             }
             for _ in 0..i{
                 self.words_countz.pop_front();
@@ -74,6 +78,17 @@ impl CombinationManager {
             temp.push("No possible words found.".to_string());
         }
         temp
+    }
+
+    #[wasm_bindgen]
+    pub fn remainstr(&self)->String{
+        let mut result: String = String::new();
+        for (&ch, &count) in self.syllable_count.iter() {
+            result.push_str(&ch.to_string().repeat(count as usize));
+        }
+        let mut chars: Vec<char> = result.chars().collect();
+        chars.sort();
+        chars.into_iter().collect()
     }
 
     fn count_syllable(&mut self){
@@ -87,7 +102,7 @@ impl CombinationManager {
         self.word_count.clear();
         for word in &self.possible_words{
             let count:u64=word.chars().map(|c|*self.letter_count.get(&c).unwrap_or(&99999)).sum();
-            self.word_count.insert(word.clone(), count)
+            self.word_count.insert(word.clone(), count);
         }
     }
 
@@ -113,7 +128,7 @@ impl CombinationManager {
     }
 
     fn sort_map(&mut self){
-        let mut sorted:Vec<_>=self.word_count.into_iter().collect();
+        let mut sorted:Vec<_>=self.word_count.clone().into_iter().collect();
         sorted.sort_by(|a: &(String, u64), b: &(String, u64)| {
             a.1.cmp(&b.1).then_with(|| a.0.cmp(&b.0))
         });

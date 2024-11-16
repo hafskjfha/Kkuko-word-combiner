@@ -11,11 +11,15 @@ export class CombinationManager {
    * @param {string} syllable
    */
   add_syllable(syllable: string): void;
+  count_letter(): void;
   /**
    * @returns {(string)[]}
    */
   get_bests(): (string)[];
-  count_letter(): void;
+  /**
+   * @returns {string}
+   */
+  remainstr(): string;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -26,8 +30,9 @@ export interface InitOutput {
   readonly combinationmanager_new: () => number;
   readonly combinationmanager_add_words: (a: number, b: number, c: number) => void;
   readonly combinationmanager_add_syllable: (a: number, b: number, c: number) => void;
-  readonly combinationmanager_get_bests: (a: number) => Array;
   readonly combinationmanager_count_letter: (a: number) => void;
+  readonly combinationmanager_get_bests: (a: number) => Array;
+  readonly combinationmanager_remainstr: (a: number) => Array;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;

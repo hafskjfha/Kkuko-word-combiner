@@ -324,12 +324,14 @@ async function test() {
         const chunk = dictionary6.slice(i, i + 5000);
         com.add_words(chunk)
     }
+    com.count_letter();
     console.log('e')
     //com.add_words(dictionary6);
     console.log(dictionary6.length)
+    const startTime = performance.now();
     com.add_syllable('가객객객객것게게격겹고곡곡곤곶관관교구구굴기기기끌끔나나나나나나나난낭넘네녀년느는니다단단단담대대댕댕더독동동두둑둑득디딘딱뛰라락래랙램렌령루르름리리리리리립릿마마마멍며면면면명묘묘문바바바박배배뱀버범범법보복봄봇불불브브빛뻑사사사사사샅생선섯성세션션쇼수수수순슛스스스스스스슴시식싱아아아아악암압앙약업에오요육을을을의의이이이인잇잔잡쟌정정제족족종좋죄죄주준쥭즘즙지지짚찜차차차찬촉츠층층층층층치칙친친컬코코코크크클키킨킵타타타탈탕터토톤톤톤트트트틀틀틴파파판팬펠포폰푸풀품프프프한한합핸험험호화화화화');
-    const d=performance.now();
     console.log(com.get_bests());
-    console.log(performance.now()-d);
+    const endTime = performance.now();
+    console.log(`소요 시간: ${endTime - startTime} ms`);
 }
 

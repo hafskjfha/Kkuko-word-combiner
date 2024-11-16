@@ -162,6 +162,9 @@ export class CombinationManager {
         wasm.__wbindgen_free(ret[0], ret[1] * 4, 4);
         return v1;
     }
+    count_letter() {
+        wasm.combinationmanager_count_letter(this.__wbg_ptr);
+    }
 }
 
 async function __wbg_load(module, imports) {

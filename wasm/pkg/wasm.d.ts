@@ -15,6 +15,7 @@ export class CombinationManager {
    * @returns {(string)[]}
    */
   get_bests(): (string)[];
+  count_letter(): void;
 }
 
 export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembly.Module;
@@ -26,6 +27,7 @@ export interface InitOutput {
   readonly combinationmanager_add_words: (a: number, b: number, c: number) => void;
   readonly combinationmanager_add_syllable: (a: number, b: number, c: number) => void;
   readonly combinationmanager_get_bests: (a: number) => Array;
+  readonly combinationmanager_count_letter: (a: number) => void;
   readonly __wbindgen_malloc: (a: number, b: number) => number;
   readonly __wbindgen_realloc: (a: number, b: number, c: number, d: number) => number;
   readonly __wbindgen_export_2: WebAssembly.Table;

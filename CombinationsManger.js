@@ -1,26 +1,27 @@
 /**
- * Map객체 정렬하는 함수 
- * 
- * 우선순위 : 
- * 
+ * Map객체 정렬하는 함수
+ *
+ * 우선순위 :
+ *
  * 1.value의 값(오름차순)
- * 
+ *
  * 2.key의 유니코드 값 (우름차순)
  * @param {Map<string, number>} map 정렬할 map 객체
  * @returns {Map<string, number>} 정렬된 map 객체
  */
 function sortMap(map) {
     // Map을 배열로 변환하여 정렬한 후, 다시 Map 객체로 변환
-    const sortedEntries = [...map.entries()]
-      .sort(([keyA, valueA], [keyB, valueB]) => {
+    const sortedEntries = [...map.entries()].sort(([
+        keyA, valueA
+    ], [keyB, valueB]) => {
         // 값이 작을 순으로 정렬
         if (valueA !== valueB) {
-          return valueA - valueB;
+            return valueA - valueB;
         }
         // 값이 같으면 키를 알파벳 순으로 정렬
         return keyA.localeCompare(keyB);
-      });
-  
+    });
+
     // 정렬된 배열을 Map으로 변환하여 반환
     return new Map(sortedEntries);
 }
@@ -31,12 +32,12 @@ function sortMap(map) {
 class CombinationManagerjs {
 
     constructor(syllable = '', words = []) {
-        this.syllable = syllable;           // 음절(문자열)을 저장
-        this.words = words;                 // 전체 단어 리스트를 저장
-        this.possibleWords = [];            // 가능한 단어 목록을 저장
-        this.letterCount = {};              // 각 글자의 빈도수를 저장
-        this.wordCount = new Map();         // 각 단어의 점수를 저장
-        this.syllableCount = {};            // 음절(문자열) 빈도수를 저장
+        this.syllable = syllable; // 음절(문자열)을 저장
+        this.words = words; // 전체 단어 리스트를 저장
+        this.possibleWords = []; // 가능한 단어 목록을 저장
+        this.letterCount = {}; // 각 글자의 빈도수를 저장
+        this.wordCount = new Map(); // 각 단어의 점수를 저장
+        this.syllableCount = {}; // 음절(문자열) 빈도수를 저장
         this.__init__();
     }
 
@@ -64,16 +65,20 @@ class CombinationManagerjs {
                     this.deleteWord(word);
                     break;
                 } else {
-                    this.wordCount.delete(word); // 없으면 제거(다음에 탐색에서 제거)
+                    this
+                        .wordCount
+                        .delete(word); // 없으면 제거(다음에 탐색에서 제거)
                 }
             }
         }
-        return temp.length > 0 ? temp : ['No possible words found.'];
+        return temp.length > 0
+            ? temp
+            : ['No possible words found.'];
     }
 
     /**
      * 음절 카운트에서 감소하는 것을 처리하는 함수
-     * @param {string} word 사용가능한 음절 목록에서 삭제할 음절들 
+     * @param {string} word 사용가능한 음절 목록에서 삭제할 음절들
      */
     deleteWord(word) {
         for (const s of word) {
@@ -88,7 +93,9 @@ class CombinationManagerjs {
         if (this.possibleWords.length === 0) {
             for (const word of this.words) {
                 if (this.exist(word)) {
-                    this.possibleWords.push(word);
+                    this
+                        .possibleWords
+                        .push(word);
                 }
             }
         } else {
@@ -110,20 +117,22 @@ class CombinationManagerjs {
     }
 
     /**
-     * 가능한 단어들을 그리디 접근적으로 처리하는 함수 
-     * 
+     * 가능한 단어들을 그리디 접근적으로 처리하는 함수
+     *
      * 단어 사전에 있는 글자들의 출현 횟수를 점수로 취급
-     * 
+     *
      * 점수가 작을수록 최상이라는 탐욕접근
      */
     countWord() {
-        this.wordCount = new Map();                // wordCount 초기화
+        this.wordCount = new Map(); // wordCount 초기화
         for (const word of this.possibleWords) {
             let count = 0;
             for (const letter of word) {
-                count += this.letterCount[letter] || 0;  // 각 글자의 빈도 합산
+                count += this.letterCount[letter] || 0; // 각 글자의 빈도 합산
             }
-            this.wordCount.set(word, count);    // 단어별 점수 저장
+            this
+                .wordCount
+                .set(word, count); // 단어별 점수 저장
         }
     }
 
@@ -131,7 +140,7 @@ class CombinationManagerjs {
      * 단어 사전의 단어들의 글자 출현 횟수 countting 함수 (나중에 단어들의 점수로 활용됨)
      */
     countLetter() {
-        this.letterCount = {};              // letterCount 초기화
+        this.letterCount = {}; // letterCount 초기화
         for (const word of this.words) {
             for (const letter of word) {
                 // 각 글자의 빈도수 증가
@@ -180,7 +189,9 @@ class CombinationManagerjs {
                 result.push(syllable.repeat(count));
             }
         }
-        return result.sort().join('');
+        return result
+            .sort()
+            .join('');
     }
 }
 

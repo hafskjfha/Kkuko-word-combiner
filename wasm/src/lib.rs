@@ -8,9 +8,9 @@ pub struct CombinationManager {
     syllable: String,
     words: Vec<String>,
     possible_words: Vec<String>,
-    letter_count: HashMap<char, usize>,
+    letter_count: HashMap<char, u64>,
     word_count: IndexMap<String, usize>,
-    syllable_count: HashMap<char, usize>,
+    syllable_count: HashMap<char, u64>,
     words_countz:VecDeque<(String, u64)>
 }
 
@@ -43,5 +43,30 @@ impl CombinationManager {
         self.init();
     }
 
+    #[wasm_bindgen]
+    pub fn count_letter(&mut self){
+        for &word in &self.words{
+            for c in word.chars(){
+                *self.letter_count.entry(c).or_insert(0) +=1;
+            }
+        }
+    }
+
+    fn count_syllable(&mut self){
+        self.syllable_count.clear();
+        for c in self.syllable.chars(){
+            *self.syllable_count.entry(c).or_insert(0) +=1;
+        }
+    }
+
+    fn count_word(&mut self){
+        self.word_count.clear();
+        for word in &self.possible_words{
+            let count:u64=word.chars().map(|c|*self.letter_count.get(&c).unwrap_or(&99999)).sum();
+            self.word_count.insert(word.clone(), count)
+        }
+    }
+
+    
     
 }

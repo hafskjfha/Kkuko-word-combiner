@@ -20,3 +20,5 @@ wasm/Cargo.lock
 
 temp.*
 /node_modules
+
+main.rs
